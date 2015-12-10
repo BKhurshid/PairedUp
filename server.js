@@ -48,6 +48,8 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(bodyParser.urlencoded({'extended':'true'}));            
 
 //need this so that req.body will not be undefined and will actually hold the data that is sent from the frontEnd. 
+// Needed to handle JSON posts
+
 app.use(bodyParser.json());   
 
 // Once the server is running, it will be available for socket clients to connect. A client trying to establish a connection with the Socket.io server will start by initiating the handshaking process.
@@ -168,9 +170,10 @@ app.post('/auth/github', function(req, res) {
 });
 
 //for every path request. 
-app.get('*', function(req, res) {
+app.get('*', function(req, res, next) {
   // load the single view file (angular will handle the page changes on the front-end)
         res.sendFile(__dirname + '/client/index.html'); 
+        next();
     });
 var usersRoom;
 
@@ -197,6 +200,12 @@ io.on('connection', function(socket) {
       //send a signal to frontEnd called notification
       socket.broadcast.emit('notification', data);
       });
+
+    /*This code is written as if we have the user */
+
+    /*This ends the code written as if we have the user*/
+
+
     });
   //working on chat feature with sockets
     socket.on('new message', function(message) {
@@ -217,7 +226,7 @@ io.on('connection', function(socket) {
         }
         //search for messages that have Joseph as the name of their chat
         db.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
-          console.log("ALL THE JOSEPH MESSAGES", results);
+          // console.log("ALL THE JOSEPH MESSAGES", results);
         });
       })
 
@@ -248,6 +257,71 @@ app.post('/fileUpload', function(req, res, next) {
 
       }
   });
-     //DELETE readFile in package.json
 });
 
+
+
+
+/*Every piece of code beneath this line is an attempt at storing users information through cookies and accessing their information from cookies*/
+
+// var session = require('cookie-session');
+// var window = this; 
+// ///////////////////////////////////////////////////////////////////////////////////////// MIDDLEWARE
+
+// // Cookie parsing needed for sessions
+// app.use(cookieParser('notsosecretkey'));
+
+// // Session framework
+// app.use(session({secret: 'notsosecretkey123'}));
+
+// // Consider all URLs under /public/ as static files, and return them raw.
+// // app.use(express.static(__dirname + '/public'));
+
+// /////////////////////////////////////////////////////////////////////////////////////////// HANDLERS
+
+// var getName = function (req, res) {
+//   if (req.session.name) {
+//     return res.json({ name: req.session.name });
+//   }
+//   else {
+//     return res.json({ name: '' });
+//   }
+
+// };
+
+// var setName = function (req, res) {
+//   console.log('In server setName')
+//   // if(!req.body.hasOwnProperty('name')) {
+//   //   console.log("hello");
+//   //   res.statusCode = 400;
+//   //   return res.json({ error: 'Invalid message' });
+//   // }
+//   // else {
+//     //for testing purposes
+//     req.session.name = window.nameForTestingChat;
+//     console.log("req.session.name", req.session.name);
+//     return res.json({ name: window.nameForTestingChat });
+ 
+//  /* Going to attempt something like this. 
+//     req.session.name = req.body.name;
+//     return res.json({ name: req.body.name });
+//     */
+//   // }
+// };
+
+// var logout = function(req, res) {
+//   req.session = null;
+//   return res.json({});
+// };
+
+// ///////////////////////////////////////////////////////////////////////////////////////////// ROUTES
+// // app.get('/', function(){});
+// app.get('/name', setName);
+// app.post('/name', setName);
+// app.get('/logout', logout);
+
+
+
+// ////////////////////////////////////////////////////////////////////////////////////// SERVER LISTEN
+// // var port = process.env.PORT || 3000;
+// // app.listen(port, function () { console.log("Listening on port " + port); });
