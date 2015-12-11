@@ -203,6 +203,7 @@ io.on('connection', function(socket) {
 
     });
   //working on chat feature with sockets
+
   //signal will be chat room. 
     socket.on('new message', function(message) {
       //general algorithim for storing messages shall go here. 
@@ -218,20 +219,75 @@ io.on('connection', function(socket) {
           console.log("err", err);
         }
         else {
-          console.log("Saved into MONGODB Success")
+          console.log("Saved into MONGODB Success");
         }
 
-        /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME*/
-          
+
+
+        /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME
+
+        UNCOMMENT WHEN WE HAVE STABLE USERS (WHEN OAUTH WORKS)
+        */
+        
+        //Not sure which name will be first given that it is random
+
+        var nameOfDocumentCheck1 = message.userWhoClicked  + message.userWhoWasClicked; 
+        var nameOfDocumentCheck2 = message.userWhoWasClicked + message.userWhoClicked;
 
 
           //Check database (through meshing the two names back to back. check both versions- e.g. joshjane and janejosh) to see if a previous room between these two users ever occured. 
+          var documentOfMessages = db.messages.find({ nameOfChat: nameOfDocumentCheck2}, function(err, results) {
+                  return results; 
+        }) ||  db.messages.find({ nameOfChat: nameOfDocumentCheck1}, function(err, results) {
+                  return results; 
+        });
             // if it exists
-              //pull out the messages that are in the database and send them to the front end. 
+            if (documentOfMessages) {
+                //Send the messages, collected from the database, to the frontEnd.
+                res.json(documentOfMessages.messageContent);
+            
             //else if the chat does not exist does not exist 
+            }else {
+                //create a new message document. 
+                var newChatBetweenTwoPeople = new db.messages({
+                nameOfChat: nameOfDocumentCheck1, 
+                messageContent: "This is a message"
+                });
+                //Save that new message document to the database. 
+                newChatBetweenTwoPeople.save(function(err, results) {
+                    if (err) {
+                        console.log("ERROR", err );
+
+                    //If the document was successfully saved to the database
+                    }else {
+                        //send the message to the frontEnd. 
+                        res.json(documentOfMessages.messageContent);
+                        
+
+
+                        //create socket room, based on a combination of their names, and have these two users join it.
+                        socket.join(documentOfMessages.nameOfChat || newChatBetweenTwoPeople.nameOfChat );
+                        //Listen for a emit from client that's message is the title of the document
+                        // socket.on(documentOfMessages.nameOfChat || newChatBetweenTwoPeople.nameOfChat , function(data) {
+                        //   //send a signal to frontEnd called notification
+                        //   socket.broadcast.emit('notification', data);
+                        //   });
+
+
+                        //create one and store it in the database
+
+
+                        //create socket listener for when they click submit message. 
+                          //save the message in the database to the user document that we found or have created. 
+                          //have some way to differentiate the messages within the document (how to tell who is from what user and how to tell when the messages are different from each other: Possible way to do this is to Put the name of the messenger at the front of every message (?).
+
+                          //emit a signal with the current message as the data.  
+                    }
+                });
+            }
+
               //create one and store it in the database
 
-          //create socket room and have these two users join it. 
 
           //create socket listener for when they click submit message. 
             //save the message in the database to the user document that we found or have created. 
@@ -243,7 +299,7 @@ io.on('connection', function(socket) {
 
 
 
-         /*This ends the code written as if we have the user*/
+         /*********************This ends the code written for the GENERAL CHAT as if we have the user**************/
 
 
 
@@ -251,9 +307,7 @@ io.on('connection', function(socket) {
 
 
         //search for messages that have Joseph as the name of their chat
-        // db.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
-          // console.log("ALL THE JOSEPH MESSAGES", results);
-        });
+        
       })
 
       //Sending a signal to the front end, along with the message from chat. This is so we can test the chat feature. Will build off of it later. 
