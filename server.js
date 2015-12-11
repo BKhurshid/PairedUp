@@ -201,13 +201,9 @@ io.on('connection', function(socket) {
       socket.broadcast.emit('notification', data);
       });
 
-    /*This code is written as if we have the user */
-
-    /*This ends the code written as if we have the user*/
-
-
     });
   //working on chat feature with sockets
+  //signal will be chat room. 
     socket.on('new message', function(message) {
       //general algorithim for storing messages shall go here. 
 
@@ -224,8 +220,38 @@ io.on('connection', function(socket) {
         else {
           console.log("Saved into MONGODB Success")
         }
+
+        /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME*/
+          
+
+
+          //Check database (through meshing the two names back to back. check both versions- e.g. joshjane and janejosh) to see if a previous room between these two users ever occured. 
+            // if it exists
+              //pull out the messages that are in the database and send them to the front end. 
+            //else if the chat does not exist does not exist 
+              //create one and store it in the database
+
+          //create socket room and have these two users join it. 
+
+          //create socket listener for when they click submit message. 
+            //save the message in the database to the user document that we found or have created. 
+            //have some way to differentiate the messages within the document (how to tell who is from what user and how to tell when the messages are different from each other: Possible way to do this is to Put the name of the messenger at the front of every message (?).
+
+            //emit a signal with the current message as the data. 
+
+            
+
+
+
+         /*This ends the code written as if we have the user*/
+
+
+
+
+
+
         //search for messages that have Joseph as the name of their chat
-        db.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
+        // db.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
           // console.log("ALL THE JOSEPH MESSAGES", results);
         });
       })
