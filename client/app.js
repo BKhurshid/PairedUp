@@ -216,10 +216,32 @@ angular.module('myApp', [
         
         });
     });
+    /* This is for the message button. When I want to message someone. This button should take me to a webpage that has our previous messages.*/
+    //scope.chatBox function 
+    $scope.sendMessage = function (fromUser, toUser) {
+      ///TODO: grab current user's name and the other user's name
 
-    //When someone clicks the submit button for the template chat.
+      //store that name in a object
+        var roomName = {
+            userWhoClicked: fromUser,
+            userWhoWasClicked: toUser
+        };
+      //socket emit chatRoom with this users name and the other users name
+        socket.emit("chatBox", roomName);
+    };
+
+
+
+    
+    //When someone clicks the submit button for the template chat. In other words, when someone submits a message to the chat box. 
     $scope.submit = function() {
         //if there is text in the box.
+        console.log("in submit")
+        // $http.get('http://localhost:8080/name').then(function(response) {
+        //   console.log("The success callback from the frontEnd get request.");
+        // }, function(err) {
+        //   console.log("err", err);
+        // });
         if ($scope.text) {
             //emit a new message with the text data. Will store this in the database. 
             socket.emit('new message', {text: $scope.text});
