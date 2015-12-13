@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "^1.14.1",
     "chai": "^3.4.1",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.0",
     "cookie-session": "^1.2.0",
     "express": "^4.13.3",
@@ -30,6 +31,7 @@
     "mongodb": "^2.0.49",
     "mongoose": "^4.2.7",
     "mongoose-find-one-or-create": "^0.2.0",
+    "morgan": "^1.6.1",
     "multer": "^1.1.0",
     "passport": "^0.3.2",
     "passport-github": "^1.0.0",
