@@ -1,34 +1,35 @@
 var express = require('express');
+var qs = require('querystring');
+var bodyParser = require('body-parser');
+var favicon = require('express-favicon');
 var favicon = require('serve-favicon');
-//instantiate an express object
-var app = express(); 
-//for the image on the top left corner of the tab, on the web browser                             
-app.use(favicon(__dirname + "/favicon.ico"));
 var fs = require('fs');
 //Need if we want to check req.file; 
 var multer  = require('multer')
-
 var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+// var cors = require('cors');
 var request = require('request');
-//JS:I don't know what qs is doing in this program. 
-var qs = require('querystring');
-//JS:I don't know what jwt is doing in this program. 
 var jwt = require('jwt-simple');
-//JS:I don't know what moment is doing in this program. 
 var moment = require('moment');
+var path = require('path');
+var config = require('./config.js');
+var mongoose = require('mongoose');
+var app = express();
+
 //I believe we need if we want to check req.file
 var upload = multer({ dest: 'uploads/' });
-var bodyParser = require('body-parser');   
+
 //I believe we need if we want to check req.file
 app.use(upload.single('string'));
 //DELETE BusBoy in package.json
+//for the image on the top left corner of the tab, on the web browser                             
+app.use(favicon(__dirname + "/favicon.ico"));
 
 var http = require('http');
-var path = require('path');
-//should have access to user mongoose model with this
-var mongoose = require('mongoose');
+
 // //should have access to user mongoose model and message mongoose model with this.
-var db = require('./server/database/UserModel');
+// var User = require('./database/UserModel');
 //I believe server is an instance of a event emitter. An object with many requesthandle properties. That is a tenative assessment. 
 //Necessary for making sockets.
 var server = http.Server(app);
@@ -39,21 +40,92 @@ var io = socketio(server);
 server.listen(8080);
 console.log("App listening on port 8080");
 
-//serves up static files, otherwise we would not be able to load the index.html file
+
+var User = require('./database/UserModel');
+
+
+app.set('port', process.env.PORT || 8080);
+// app.use(cors());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Force HTTPS on Heroku
+if (app.get('env') === 'production') {
+  app.use(function(req, res, next) {
+    var protocol = req.get('x-forwarded-proto');
+    protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+  });
+}
+
 app.use(express.static(__dirname + '/client'));                 
 //serves up static files, otherwise we would not be able to load angular (and all the other bower components) in the index.html file
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
-//not sure what this does. Need to research. 
-app.use(bodyParser.urlencoded({'extended':'true'}));            
+
+//for every path request. 
+// app.get('*', function(req, res) {
+//   // load the single view file (angular will handle the page changes on the front-end)
+//         res.sendFile(__dirname + '/client/index.html'); 
+//     });
+
+// app.use(bodyParser.urlencoded({'extended':'true'}));            
 
 //need this so that req.body will not be undefined and will actually hold the data that is sent from the frontEnd. 
+// app.use(bodyParser.json());                                  
+
+            
+
+//need this so that req.body will not be undefined and will actually hold the data that is sent from the frontEnd. 
+<<<<<<< HEAD
 // Needed to handle JSON posts
 
 app.use(bodyParser.json());   
 
 // Once the server is running, it will be available for socket clients to connect. A client trying to establish a connection with the Socket.io server will start by initiating the handshaking process.
 
+=======
+
+// Once the server is running, it will be available for socket clients to connect. A client trying to establish a connection with the Socket.io server will start by initiating the handshaking process.
+
+/*
+ |--------------------------------------------------------------------------
+ | Login Required Middleware
+ |--------------------------------------------------------------------------
+ */
+
+ //makes sure that user is authenticated
+
+function ensureAuthenticated(req, res, next) {
+  if (!req.headers.authorization) {
+    return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
+  }
+  var token = req.headers.authorization.split(' ')[1];
+
+  var payload = null;
+  try {
+    payload = jwt.decode(token, config.TOKEN_SECRET);
+  }
+  catch (err) {
+    return res.status(401).send({ message: err.message });
+  }
+
+  if (payload.exp <= moment().unix()) {
+    return res.status(401).send({ message: 'Token has expired' });
+  }
+  req.user = payload.sub;
+  next();
+}
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Sockets Connection
+ |--------------------------------------------------------------------------
+ */
+
+
+>>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
 
 
 
@@ -62,7 +134,14 @@ app.use(bodyParser.json());
 
 
 
-//JS: I do not know what this does
+/*
+ |--------------------------------------------------------------------------
+ | Generate JSON Web Token
+ |--------------------------------------------------------------------------
+ */
+
+
+
 function createJWT(user){
   var payload = {
     sub: user._id,
@@ -71,6 +150,8 @@ function createJWT(user){
   };
   return jwt.encode(payload, 'shhhh');
 }
+
+
 /*
 A request handler is a function that will be executed every time the server receives a particular request, usually defined by an HTTP method (e.g., GET) and the URL path (i.e., the URL without the protocol, host, and port). The Express.js request handler needs at least two parameters—request, or simply req, and response, or res.
 */
@@ -85,93 +166,158 @@ app.all('/*', function(req, res, next) {
 
 
 
+/*
+ |--------------------------------------------------------------------------
+ | GET /api/me
+ |--------------------------------------------------------------------------
+ */
+
+app.get('/api/me', function(req, res) {
+  var test = Object.keys(req);
+  console.log('req', req.params);
+  User.user.findById(req.user, function(err, user) {
+    console.log('this is the user crap', user)
+    console.log('this, is the err', err);
+    res.send(user);
+  });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | PUT /api/me
+ |--------------------------------------------------------------------------
+ */
+
+app.put('/api/me', function(req, res) {
+  User.user.findById(req.user, function(err, user) {
+    if (!user) {
+      return res.status(400).send({ message: 'User not found' });
+    }
+    user.displayName = req.body.displayName || user.displayName;
+    user.email = req.body.email || user.email;
+    user.save(function(err) {
+      res.status(200).end();
+    });
+  });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Login with GitHub
+ |--------------------------------------------------------------------------
+ */
 
 
 
 
-// /*Login Github Oauth Angular stuff too*/
+
+
 app.post('/auth/github', function(req, res) {
-  // console.log('this.....', res);
-  console.log("In the postAuth GIthub")
+  console.log('heeyyy work it', res)
   var accessTokenUrl = 'https://github.com/login/oauth/access_token';
   var userApiUrl = 'https://api.github.com/user';
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
-    client_secret: "ec5ccdd036aede19767499594e72fc90e7cf734e",
-    redirect_uri: req.body.redirectUri,
-    // grant_type: 'authorization_code'
+    client_secret: config.GITHUB_SECRET,
+    redirect_uri: req.body.redirectUri
   };
 
-//   // Step 1. Exchange authorization code for access token.
-  request.get({ url: accessTokenUrl, qs: params}, function(err, response, accessToken) {
+  // Step 1. Exchange authorization code for access token.
+  request.get({ url: accessTokenUrl, qs: params }, function(err, response, accessToken) {
     accessToken = qs.parse(accessToken);
-    // console.log('response-------', response);
-    // console.log('heyyyyyy-----', accessToken);
     var headers = { 'User-Agent': 'Satellizer' };
 
-//     // Step 2. Retrieve profile information about the current user.
+    // Step 2. Retrieve profile information about the current user.
     request.get({ url: userApiUrl, qs: accessToken, headers: headers, json: true }, function(err, response, profile) {
-        // console.log('this is the profile------', profile);
-//       // Step 3a. Link user accounts.
+      console.log('this is a profile', profile);
+      // Step 3a. Link user accounts.
       if (req.headers.authorization) {
-
-      //   db.findOne({ github: profile.id }, function(err, existingUser) {
-      //     console.log('in post to db ---------------', existingUser);
-      //     if (existingUser) {
-      //       return res.status(409).send({ message: 'There is already a GitHub account that belongs to you' });
-      //     }
-      //     var token = req.headers.authorization.split(' ')[1];
-      //     var payload = jwt.decode(token, 'shhhh');
-      //     db.findById(payload.sub, function(err, user) {
-      //       if (!user) {
-
-      //         console.log('user ----------', user);
-      //         return res.status(400).send({ message: 'User not found' });
-      //       }
-      //       // var user = new db();
-      //       user.github = profile.id;
-      //       user.picture = user.picture || profile.avatar_url;
-      //       user.displayName = user.displayName || profile.name;
-      //       // user.name = profile.name;
-      //       user.save(function() {
-      //         var token = createJWT(user);
-      //         res.send({ token: token });
-      //       });
-      //     });
-      //   });
-      //   //   console.log('auth head---------');
-      // }else{
-         // Step 3b. Create a new user account or return an existing one.
-          db.findOne({ github: profile.id }, function(err, existingUser) {
-            console.log('existingUser------', existingUser);
-            if (existingUser) {
-              var token = createJWT(existingUser);
-              return res.send({ token: token, user: existingUser});
-            }
-            var user = new db();
-            user.github = profile.id;
-            user.picture = profile.avatar_url;
-            user.displayName = profile.name;
-            // user.name = profile.name;
-            user.save(function() {
-              var token = createJWT(user);
-              res.send({ token: token, user: user});
-            });
+        console.log('inside authorization if statement ---------------');
+        // User.user.findOne({ github: profile.id }, function(err, existingUser) {
+        //   console.log('this is the user in the database', existingUser);
+        //   if (existingUser) {
+        //     return res.status(409).send({ message: 'There is already a GitHub account that belongs to you' });
+        //   }
+        //   var token = req.headers.authorization.split(' ')[1];
+        //   // console.log('this is the token', token)
+        //   var payload = jwt.decode(token, config.TOKEN_SECRET);
+        //   User.user.findById(payload.sub, function(err, user) {
+        //     if (!user) {
+        //       return res.status(400).send({ message: 'User not found' });
+        //     }
+        //     user.github = profile.id;
+        //     user.picture = user.picture || profile.avatar_url;
+        //     user.displayName = user.displayName || profile.name;
+        //     user.save(function() {
+        //       var token = createJWT(user);
+        //       res.send({ token: token });
+        //     });
+        //   });
+        // });
+      }
+      // } else {
+        // Step 3b. Create a new user account or return an existing one.
+        User.user.findOne({ github: profile.id }, function(err, existingUser) {
+          if (existingUser) {
+            console.log('i am the existing user', existingUser)
+            var token = createJWT(existingUser);
+            return res.send({ token: token, user: existingUser });
+          }
+          var user = new User();
+          user.github = profile.id;
+          user.picture = profile.avatar_url;
+          user.displayName = profile.name;
+          user.save(function() {
+            var token = createJWT(user);
+            res.send({ token: token, user: user });
           });
-        }
-
+        });
+      
     });
   });
 });
 
+<<<<<<< HEAD
 //for every path request. 
 app.get('*', function(req, res, next) {
   // load the single view file (angular will handle the page changes on the front-end)
         res.sendFile(__dirname + '/client/index.html'); 
         next();
+=======
+/*
+ |--------------------------------------------------------------------------
+ | Unlink Provider
+ |--------------------------------------------------------------------------
+ */
+app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
+  var provider = req.body.provider;
+  var providers = ['facebook', 'foursquare', 'google', 'github', 'instagram',
+    'linkedin', 'live', 'twitter', 'twitch', 'yahoo'];
+
+  if (providers.indexOf(provider) === -1) {
+    return res.status(400).send({ message: 'Unknown OAuth Provider' });
+  }
+
+  User.user.findById(req.user, function(err, user) {
+    if (!user) {
+      return res.status(400).send({ message: 'User Not Found' });
+    }
+    user[provider] = undefined;
+    user.save(function() {
+      res.status(200).end();
+>>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
     });
+  });
+});
+
+
+
+
+
+
 var usersRoom;
+
 
 //The first event we will use is the connection event. It is fired when a client tries to connect to the server; Socket.io creates a new socket that we will use to receive or send messages to the client.
 io.on('connection', function(socket) {
@@ -205,7 +351,7 @@ io.on('connection', function(socket) {
       //general algorithim for storing messages shall go here. 
 
       //hard coded message document to test persisting chat data
-      var JosephMessages = new db.messages({
+      var JosephMessages = new User.messages({
         nameOfChat: "Joseph", 
         messageContent: "This is a message"
       });
@@ -217,6 +363,7 @@ io.on('connection', function(socket) {
         else {
           console.log("Saved into MONGODB Success");
         }
+<<<<<<< HEAD
 
 
 
@@ -236,6 +383,11 @@ io.on('connection', function(socket) {
                   return results; 
         }) ||  db.messages.find({ nameOfChat: nameOfDocumentCheck1}, function(err, results) {
                   return results; 
+=======
+        //search for messages that have Joseph as the name of their chat
+        User.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
+          console.log("ALL THE JOSEPH MESSAGES", results);
+>>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
         });
             // if it exists
             if (documentOfMessages) {

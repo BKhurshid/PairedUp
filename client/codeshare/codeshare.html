@@ -28,6 +28,27 @@
     </div>
     <div class="col-md-2">
 
+    <!-- <video id="localVideo" autoplay></video> -->
+      <!-- <icecomm-connect room="custom room"></icecomm-connect>
+      <icecomm-local><video ng-if="local" autoplay class="icecomm-local"' +
+        'ng-src={{local.stream}}></video></icecomm-local>
+      <icecomm-peer></icecomm-peer>
+      <icecomm-leave></icecomm-leave>
+ -->
+    <!-- <ice-comm
+            
+            room="custom room"></ice-comm> -->
+      <!-- <div>
+          <button ng-if="!!current_room" ng-click="close()">Close</button>
+          <input ng-if="!current_room" type="text" ng-keyup="roomEvent()" />
+          <div ng-if="!!local">
+            <video autoplay class="local" ng-src={{local.stream}}></video>
+          </div>
+          <ul><li ng-repeat="peer in peers">
+            <video autoplay ng-src="{{peer.stream}}" ></video>
+          </li></ul> -->
+
+
         <!-- <<  </li></ul> --> 
       <!-- </div> -->
 
@@ -35,211 +56,6 @@
 </div>
 
 
-<!-- ui-ace="aceOption" ng-model="aceModel" -->
-<!-- <div class="ace_editor"ui-ace>we in here</div> -->
-
-<!-- 
-<section ng-controller="AceCtrl">
-
-  <div ui-ace="aceOption" ng-model="aceModel"></div>
-
-  <select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>
-
-</section> -->
-
-
-<!-- codeshare was added using the following: https://github.com/angular-ui/ui-ace
-	
-	you can also trying implementing the ace raw 
-
-	https://ace.c9.io/
-
-	in order to view this page you must install bower like so 
-	bower install angular-ui-ace#bower
-	or 
-	bower install -g -save angular-ui-ace#bower
-
-	whatever works for you
--->
-
-
-<!-- Description of how the ui-ace object options works: -->
-
-<!-- <div ui-ace="{
-  useWrapMode : true, // wrap text
-  showGutter: true, // show or hide line numbers
-  theme:'chaos', // set color palette
-  mode: 'javascript', // language, or xml, or json
-  firstLineNumber: 1, // starting line number
-  onLoad: aceLoaded, // we can cusomize this function
-  onChange: aceChanged // we can customize this 'listener'
-}" -->
-
-<!-- <i>Theme: chaos (nice, professional)</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: true, 
-  theme:'chaos',
-  mode: 'javascript',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}">var x = 'you';
-var y = 'me';
-var coolCollaboration = function (x, y) {
-  Type code here
-}</div>
-
-<i>Theme: ambiance </i>
-<div ui-ace="{
-  useWrapMode : false,
-  showGutter: true,
-  theme:'ambiance',
-  mode: 'css',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}">body {
-  padding-top: 50px;
-}
-</div>
- -->
-<!-- <div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'chrome',
-  mode: 'xml',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div> -->
-
-<!-- <i>Theme: clouds (yellow subtle yuck) -->
-<!-- <div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'clouds',
-  mode: 'xml',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div> -->
-
-<!--<script type="text/javascript">var x = 'javascript'</script>
-
-<i>Theme: clouds_midnight (very clean and pleasant)</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: true,
-  theme:'clouds_midnight',
-  mode: 'html',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"><html></html></div>
-
-<i>Theme: cobalt (looks kinda boss)</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'cobalt',
-  mode: 'ruby',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
- -->
-<!-- <i>Themes: crimson and dawn (boring) -->
-<!-- <div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'crimson_editor',
-  mode: 'xml',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'dawn',
-  mode: 'xml',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div> -->
-
-<!-- i>Theme: dreamweaver - javascript</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'dreamweaver',
-  mode: 'javascript',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-<i><i>Theme: eclipse</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'eclipse',
-  mode: 'json',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'idle_fingers',
-  mode: 'json',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-<i>Theme:'merbivore'</i>
-
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'merbivore',
-  mode: 'json',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-<i>Theme:'tomorrow_night_eighties'</i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'tomorrow_night_eighties',
-  mode: 'json',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-<i>Theme: twilight </i>
-<div ui-ace="{
-  useWrapMode : true,
-  showGutter: false,
-  theme:'twilight',
-  mode: 'json',
-  firstLineNumber: 1,
-  onLoad: aceLoaded,
-  onChange: aceChanged
-}"></div>
-
-
- -->
-<!-- class="ace_editor" We would add this class to use the CSS height and width assignments.--> 
 
 
 

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var config = require('../config.js');
 var Schema = mongoose.Schema;
 
 //Line 5 or line 10. Not both. 
@@ -8,12 +9,12 @@ var Schema = mongoose.Schema;
 // Since you're connecting to a local instance, you can skip the username and password and use the following URI:
 
 
-var uri = 'mongodb://localhost/users'; 
+var uri = config.MONGO_URI; 
 var db = require('mongoose').connect(uri);
 
 var userSchema = new Schema({
  displayName: String,
- name: String,
+ // name: String,
  picture: String,
  github: String
  // lastname: String,
