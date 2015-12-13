@@ -98,14 +98,19 @@ angular.module('myApp.codeshare', [ ])
     '<root>\n\t<foo>\n\t</foo>\n\t<bar/>\n</root>\n\n\n' +
     '// Javascript code in here.\n' +
     'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
- 
-  
+ //file types to add to the document name. 
+  $scope.fileTypes = {'Scheme': '.sch', 'XML' : '.xml', 'Javascript': '.js', 'HTML': '.html' , 'Ruby': '.rb' , 'CSS': '.css' , 'Curly': '.curly' , 'CSharp': '.csharp' , 'Python': '.py' , 'MySQL': '.sql' };
 
+'Scheme', 'XML', 'Javascript', 'HTML', 'Ruby', 'CSS', 'Curly', 'CSharp', 'Python', 'MySQL'
+  
   $scope.add = function(){
     $scope.id++
     var total = $scope.id + $scope.removeid;
     $scope.filesList.push({id: total, title: $scope.title, code: $scope.aceModel, mode: $scope.mode});
-    console.log("This is from the add button signifying that this document is in the text in the editor",$scope.filesList[0].code);
+      // console.log("$Scope.fileList[total - 1]", $scope.fileList[total - 1]);
+      //add the .fileType to the title of the document
+    $scope.filesList[total - 1].title += $scope.fileTypes[$scope.mode];
+      
     $scope.title = '';
     $scope.aceModel = '';
 
