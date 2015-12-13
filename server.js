@@ -77,14 +77,14 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
             
 
 //need this so that req.body will not be undefined and will actually hold the data that is sent from the frontEnd. 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 // Needed to handle JSON posts
 
-app.use(bodyParser.json());   
+// app.use(bodyParser.json());   
 
 // Once the server is running, it will be available for socket clients to connect. A client trying to establish a connection with the Socket.io server will start by initiating the handshaking process.
 
-=======
+// =======
 
 // Once the server is running, it will be available for socket clients to connect. A client trying to establish a connection with the Socket.io server will start by initiating the handshaking process.
 
@@ -95,27 +95,27 @@ app.use(bodyParser.json());
  */
 
  //makes sure that user is authenticated
+    //********************COMMENTING THIS OUT BECAUSE I AM TRYING PASSPORT
+// function ensureAuthenticated(req, res, next) {
+//   if (!req.headers.authorization) {
+//     return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
+//   }
+//   var token = req.headers.authorization.split(' ')[1];
 
-function ensureAuthenticated(req, res, next) {
-  if (!req.headers.authorization) {
-    return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
-  }
-  var token = req.headers.authorization.split(' ')[1];
+//   var payload = null;
+//   try {
+//     payload = jwt.decode(token, config.TOKEN_SECRET);
+//   }
+//   catch (err) {
+//     return res.status(401).send({ message: err.message });
+//   }
 
-  var payload = null;
-  try {
-    payload = jwt.decode(token, config.TOKEN_SECRET);
-  }
-  catch (err) {
-    return res.status(401).send({ message: err.message });
-  }
-
-  if (payload.exp <= moment().unix()) {
-    return res.status(401).send({ message: 'Token has expired' });
-  }
-  req.user = payload.sub;
-  next();
-}
+//   if (payload.exp <= moment().unix()) {
+//     return res.status(401).send({ message: 'Token has expired' });
+//   }
+//   req.user = payload.sub;
+//   next();
+// }
 
 
 /*
@@ -125,7 +125,7 @@ function ensureAuthenticated(req, res, next) {
  */
 
 
->>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
+// >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
 
 
 
@@ -278,38 +278,38 @@ app.post('/auth/github', function(req, res) {
   });
 });
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 //for every path request. 
 app.get('*', function(req, res, next) {
   // load the single view file (angular will handle the page changes on the front-end)
         res.sendFile(__dirname + '/client/index.html'); 
         next();
-=======
+// =======
 /*
  |--------------------------------------------------------------------------
  | Unlink Provider
  |--------------------------------------------------------------------------
  */
-app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
-  var provider = req.body.provider;
-  var providers = ['facebook', 'foursquare', 'google', 'github', 'instagram',
-    'linkedin', 'live', 'twitter', 'twitch', 'yahoo'];
+// app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
+//   var provider = req.body.provider;
+//   var providers = ['facebook', 'foursquare', 'google', 'github', 'instagram',
+//     'linkedin', 'live', 'twitter', 'twitch', 'yahoo'];
 
-  if (providers.indexOf(provider) === -1) {
-    return res.status(400).send({ message: 'Unknown OAuth Provider' });
-  }
+//   if (providers.indexOf(provider) === -1) {
+//     return res.status(400).send({ message: 'Unknown OAuth Provider' });
+//   }
 
-  User.user.findById(req.user, function(err, user) {
-    if (!user) {
-      return res.status(400).send({ message: 'User Not Found' });
-    }
-    user[provider] = undefined;
-    user.save(function() {
-      res.status(200).end();
->>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
+//   User.user.findById(req.user, function(err, user) {
+//     if (!user) {
+//       return res.status(400).send({ message: 'User Not Found' });
+//     }
+//     user[provider] = undefined;
+//     user.save(function() {
+//       res.status(200).end();
+// >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
     });
-  });
-});
+  // });
+// });
 
 
 
@@ -363,31 +363,31 @@ io.on('connection', function(socket) {
         else {
           console.log("Saved into MONGODB Success");
         }
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
 
 
-        /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME
+//         /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME
 
-        UNCOMMENT WHEN WE HAVE STABLE USERS (WHEN OAUTH WORKS)
-        */
+//         UNCOMMENT WHEN WE HAVE STABLE USERS (WHEN OAUTH WORKS)
+//         */
         
-        //Not sure which name will be first given that it is random
+//         //Not sure which name will be first given that it is random
 
-        var nameOfDocumentCheck1 = message.userWhoClicked  + message.userWhoWasClicked; 
-        var nameOfDocumentCheck2 = message.userWhoWasClicked + message.userWhoClicked;
+//         var nameOfDocumentCheck1 = message.userWhoClicked  + message.userWhoWasClicked; 
+//         var nameOfDocumentCheck2 = message.userWhoWasClicked + message.userWhoClicked;
 
 
-          //Check database (through meshing the two names back to back. check both versions- e.g. joshjane and janejosh) to see if a previous room between these two users ever occured. 
-          var documentOfMessages = db.messages.find({ nameOfChat: nameOfDocumentCheck2}, function(err, results) {
-                  return results; 
-        }) ||  db.messages.find({ nameOfChat: nameOfDocumentCheck1}, function(err, results) {
-                  return results; 
-=======
+//           //Check database (through meshing the two names back to back. check both versions- e.g. joshjane and janejosh) to see if a previous room between these two users ever occured. 
+//           var documentOfMessages = db.messages.find({ nameOfChat: nameOfDocumentCheck2}, function(err, results) {
+//                   return results; 
+//         }) ||  db.messages.find({ nameOfChat: nameOfDocumentCheck1}, function(err, results) {
+//                   return results; 
+// =======
         //search for messages that have Joseph as the name of their chat
         User.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
           console.log("ALL THE JOSEPH MESSAGES", results);
->>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
+// >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
         });
             // if it exists
             if (documentOfMessages) {
@@ -579,8 +579,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // var util = require('util')
 var GitHubStrategy = require('passport-github').Strategy;
-var GITHUB_CLIENT_ID = "26026de88b3713136633"
-var GITHUB_CLIENT_SECRET = "42b7381977117880bff456676f3f6233199c8f4b";
+var GITHUB_CLIENT_ID = "clie"
+var GITHUB_CLIENT_SECRET = "sec";
 
 // var bodyParser = require('body-parser');
 var session = require('express-session');
