@@ -1,13 +1,12 @@
-# Project Name
-Magi Cati
+# PairedUp
 
-> Pithy project description
+A WorldWide Pair Programming WebApp. 
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Aheri Stanford-Asiyo
+  - __Scrum Master__: Kristina Mcelveen
+  - __Development Team Members__: Joseph Sun, Carine Todmia
 
 ## Table of Contents
 
@@ -23,13 +22,10 @@ Magi Cati
 
 > Some usage instructions
 
-## Requirements
+## Reimplementation Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+
 
 ## Development
 
@@ -45,7 +41,7 @@ bower install
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://waffle.io/MagCacti/PairedUp)
 
 
 ## Contributing

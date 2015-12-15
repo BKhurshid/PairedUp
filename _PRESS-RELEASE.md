@@ -16,29 +16,20 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
-
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
+# PairedUp #
+## Market ##
+PairedUp is for people learning how to code. 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-
+Learning how to code? Need a Partner? PairedUp is a way to connect with awesome TechMentors. If your looking to learn a particular programming language then PairedUp will match you with fellow coders who can pair program with you. 
 ## Problem ##
-  > Describe the problem your product solves.
-
+Many folks who are new to coding have to pay money to find talented TechMentors. They do not have a platform to discuss their code. 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
-
+PairedUp allows users to choose from a variety of skilled coders and provides a platform for them to discuss and review code. 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
-
+"We want to connect students and TechMentors to build better code."
 ## How to Get Started ##
-  > Describe how easy it is to get started.
-
+Have the internet? Have a github Profile? Log on to PairedUp.com, fill out your user profile, and search for a TechMentor. 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
-
+"Before PairedUp I spent hours trying to debug, now with PairedUp I just ask my TechMentor."
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+If you need help or want to give back to the coder community, visit PairedUp.com
