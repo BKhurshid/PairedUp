@@ -133,9 +133,14 @@ angular.module('myApp', [
 
 */
 
-.controller('NavbarController', function($scope, $auth) {
+.controller('NavbarController', function($scope, $auth, $http) {
+  console.log("This is the document cookie", document.cookie);
   $scope.isAuthenticated = function() {
-    return $auth.isAuthenticated();
+    // return $auth.isAuthenticated();
+    return $http.get('/checkIfLoggedIn').then(function(response){
+      return response.data.loggedIn;
+    // console.log("response from checkIfLoggedIn", response);
+  });
   };
 })
 
@@ -149,7 +154,7 @@ angular.module('myApp', [
   })
 
 
-.factory('Account', function($http) {
+.factory('Account', function($http, $window) {
 
     return {
       getProfile: function() {
@@ -166,6 +171,20 @@ angular.module('myApp', [
         // })
       
       },
+      setData: function(val) {
+            $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
+            return this;
+          },
+      setLogInData: function(val) {
+            $window.localStorage && $window.localStorage.setItem('UserDisplayName', val);
+            return this;
+          },
+          getLogInData: function() {
+            return $window.localStorage && $window.localStorage.getItem('UserDisplayName');
+          },
+          getData: function() {
+            return $window.localStorage && $window.localStorage.getItem('notLoggedIn');
+          },
       updateProfile: function(profileData) {
         return $http.put('/api/me', profileData);
       }
@@ -210,5 +229,12 @@ angular.module('myApp', [
             socket.emit('new message', {text: $scope.text});
         }
     };
+}])
+.controller('LogoutController', ['$scope', '$http', '$state','$window','Account', function($scope, $http, $state, $window, Account){
+  console.log("Hello")
+      // delete $window.localStorage.UserDisplayName;
+      Account.setData(false);
+      console.log("day")
+      $state.go('login');
 }]);
 

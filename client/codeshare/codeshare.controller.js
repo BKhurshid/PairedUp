@@ -21,7 +21,9 @@ angular.module('myApp.codeshare', [ ])
   $scope.removeid = 0;
   $scope.modes = ['Scheme', 'XML', 'Javascript', 'HTML', 'Ruby', 'CSS', 'Curly', 'CSharp', 'Python', 'MySQL'];
   $scope.mode = $scope.modes[0];
-
+  $http.get('//checkIfLoggedIn').then(function(response){
+    console.log("response from checkIfLoggedIn", response);
+  });
   // var comm = new Icecomm('');
 
   //       comm.connect('test');

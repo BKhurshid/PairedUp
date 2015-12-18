@@ -43,11 +43,12 @@
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a ui-sref="login">Login</a></li>
-
-          <li><a ui-sref="profile">Profile</a></li>
-          <li><a ui-sref="logout">Logout</a></li>
-          <li><a ui-sref="codeshare">Codeshare</a></li>
-          <li><a ui-sref="chat">Chat</a></li>
+          <!-- <div ng-if="isAuthenticated()"> -->
+            <li><a ui-sref="profile">Profile</a></li>
+            <li><a ui-sref="logout">Logout</a></li>
+            <li><a ui-sref="codeshare">Codeshare</a></li>
+            <li><a ui-sref="chat">Chat</a></li>
+          <!-- </div> -->
         </ul>
       </div><!--/.nav-collapse -->
     </div>

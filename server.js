@@ -20,8 +20,8 @@ var server = http.Server(app);
 var passport = require('passport');
 var flash    = require('connect-flash');
 var GitHubStrategy = require('passport-github').Strategy;
-var GITHUB_CLIENT_ID = ""
-var GITHUB_CLIENT_SECRET = "";
+var GITHUB_CLIENT_ID = config.TOKEN_SECRET ;
+var GITHUB_CLIENT_SECRET = config.GITHUB_SECRET;
 var session = require('express-session');
 var morgan = require('morgan');
 var logger = require('morgan');
@@ -58,7 +58,15 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
   // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+app.use(session({ 
+      name: "UserFromPearedUp",
+      secret: "keyboard cat", 
+      // cookie: {maxAge: 3600000},
+      resave: true, 
+      saveUninitialized: true, 
+      cookie: { path: '/', httpOnly: false, secure: false, maxAge: null }
+       }));
+      
 
 // Force HTTPS on Heroku
 if (app.get('env') === 'production') {
@@ -73,6 +81,7 @@ app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
   next();
 });
 
@@ -140,18 +149,41 @@ app.get('/logout', function(req, res){
 // This will be the route to call when my page gets redirected to the profile. So my profile page should do a http.get to this route automatically once the user is logged in. 
 //Step 3
 app.get('/account', ensureAuthenticated, function(req, res){
-  console.log('this is the req.user in the account route', req.user);
+  // console.log('this is the req.user in the account route', req.user);
   res.json(req.user);
 });
-
+// var userSession;
 app.get('/login', function(req, res){
-    console.log('this is the req.user in the login route', req);
+    // console.log('this is the req.user in the login route', req);
+    console.log("This is the req.session", req.session);
+    // console.log("This is the req.session", req.session);
+    console.log("globalProfile", globalProfile);
+    //to identify each individual user. This might not be the best idea as we want to access the cookie. 
+    // userSession = req.sessions 
 
-  res.json({profile: globalProfile});
+    req.session.githubID = globalProfile.github;
+    req.session.userForTheMoment = globalProfile;
+    console.log("req.session after assignment of req.session.githubID", req.session);
+    if(typeof req.cookies['UserFromPearedUp'] !== 'undefined') {
+            console.log("This is req.cookies[userfromPearedUp]",req.cookies['UserFromPearedUp']);
+        }
+        console.log("This is req", req);
+    res.json({profile: globalProfile, sessions: req.session});
 });
 
 
+app.get('/checkIfLoggedIn', function(req, res) {
+  if (req.session.githubID === undefined){
+    res.json({loggedIn: false}) ;     
+  }else {
+    res.json({loggedIn: true});
+  }
+});
 
+app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
+  console.log("req.body in checkIfLoggedIn", req.body)
+
+});
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
@@ -160,8 +192,12 @@ app.get('/login', function(req, res){
 //   login page.
 //Step 4:
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  //req.isAuthenticated() is undefined here. Therefore it is false and not going through the if. 
+  if (req.isAuthenticated()) { 
+    return next(); 
+  }
+  
+  res.redirect('/login');
 }
 
 
@@ -177,13 +213,13 @@ passport.use(new GitHubStrategy({
     process.nextTick(function () {
       // console.log("accessToken", accessToken);
       // console.log("refreshToken",refreshToken );
-      console.log("profile", profile);
-      console.log("This is the avatar_url:::::::", profile._json.avatar_url)
+      // console.log("profile", profile);
+      // console.log("This is the avatar_url:::::::", profile._json.avatar_url)
       // User.findOrCreate
       // var user;
       User.findOne({github: profile.id}, function (err, user) {
         if (user) {
-          console.log('this is the user', user);
+          // console.log('this is the user', user);
         globalProfile = user;
         }else {
           var user = new User();
@@ -191,7 +227,7 @@ passport.use(new GitHubStrategy({
           user.picture = profile._json.avatar_url;
           user.displayName = profile.displayName;
           user.save(function() {
-            console.log(user + ' was saved');
+            // console.log(user + ' was saved');
           });
           globalProfile = user;
         }
@@ -207,6 +243,9 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+
+
+// var isAuthenticated = function 
 /*
 
  |--------------------------------------------------------------------------
