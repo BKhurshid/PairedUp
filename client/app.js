@@ -176,7 +176,7 @@ angular.module('myApp', [
         // })
       
       },
-      setData: function(val=true) {
+      setData: function(val) {
             $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
             return this;
           },
@@ -202,7 +202,7 @@ angular.module('myApp', [
             return $window.localStorage && $window.localStorage.getItem('LoggedOut');
           },
           getData: function() {
-            return $window.localStorage && $window.localStorage.getItem('loggedOut');
+            return $window.localStorage && $window.localStorage.getItem('notLoggedIn');
           },
       updateProfile: function(profileData) {
         return $http.put('/api/me', profileData);
@@ -216,12 +216,13 @@ angular.module('myApp', [
     console.log("GoingTOLOGIN");
     Account.setLoggedOutData(false);
     Account.setData(true);
-    Account.setCheckingIfLogInData(0);
+    Account.setCheckingIfLogInData(2);
+    console.log("getcheckingIfLoginData", Account.getCheckingIfLogInData())
 
   };
   $scope.goingToLogOut = function() {
     console.log("GoingTOLOGOUT");
-    $Account.setLoggedOutData(true);
+    Account.setLoggedOutData(true);
     // $window.localStorage.loggedIn = 3;
   };
   $scope.isAuthenticated = function() {
@@ -278,7 +279,7 @@ angular.module('myApp', [
       // $window.localStorage.loggedIn = 0;
 
       // $window.localStorage.loggedOut = true;
-      $Acount.setLoggedOutData(true);
+      // $Acount.setLoggedOutData(true);
       // console.log("day");
       $state.go('login');
 }]);

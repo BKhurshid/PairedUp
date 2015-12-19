@@ -61,7 +61,7 @@ angular.module('myApp')
       Account.setLoggedOutData(true);
     }
     //if the person is not logged 
-    // console.log("This is account.getdata", !!Account.getData())
+    console.log("This is account.getdata", Account.getData())
     console.log("Account.getLoggedInData", Account.getCheckingIfLogInData());
      if (Account.getData() && Account.getCheckingIfLogInData() != 1) {
       Account.setCheckingIfLogInData(1);
@@ -79,7 +79,7 @@ angular.module('myApp')
      });  
     }else if (Account.getCheckingIfLogInData() == 1 ){
       console.log("else if&&&&&&&&&&&&&&&&&&");
-      if (Account.getLoggedOutData) {
+      if (Account.getLoggedOutData()) {
         console.log("Logged out is true");
         // Account.setCheckingIfLogInData(0);
         $state.go('login');
