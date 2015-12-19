@@ -133,16 +133,21 @@ angular.module('myApp', [
 
 */
 
-.controller('NavbarController', function($scope, $auth, $http) {
-  console.log("This is the document cookie", document.cookie);
-  $scope.isAuthenticated = function() {
-    // return $auth.isAuthenticated();
-    return $http.get('/checkIfLoggedIn').then(function(response){
-      return response.data.loggedIn;
-    // console.log("response from checkIfLoggedIn", response);
-  });
-  };
-})
+// .controller('NavbarController', function($scope, $auth, $http, $window) {
+//   console.log("This is the document cookie", document.cookie);
+
+//   $scope.goingToLogIn = function() {
+//     console.log("GoingTOLOGIN")
+//     // $window.localStorage.loggedIn = 3;
+//   }
+//   $scope.isAuthenticated = function() {
+//     // return $auth.isAuthenticated();
+//     return $http.get('/checkIfLoggedIn').then(function(response){
+//       return response.data.loggedIn;
+//     // console.log("response from checkIfLoggedIn", response);
+//   });
+//   };
+// })
 
 .controller('LogoutController', function($location, $auth) {
     if (!$auth.isAuthenticated()) { return; }
@@ -171,8 +176,12 @@ angular.module('myApp', [
         // })
       
       },
-      setData: function(val) {
+      setData: function(val=true) {
             $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
+            return this;
+          },
+          setLoggedOutData: function(val) {
+            $window.localStorage && $window.localStorage.setItem('Loggedout', val);
             return this;
           },
       setLogInData: function(val) {
@@ -182,13 +191,46 @@ angular.module('myApp', [
           getLogInData: function() {
             return $window.localStorage && $window.localStorage.getItem('UserDisplayName');
           },
+          setCheckingIfLogInData: function(val) {
+            $window.localStorage && $window.localStorage.setItem('loggedIn', val || 1);
+            return this;
+          },
+          getCheckingIfLogInData: function() {
+            return $window.localStorage && $window.localStorage.getItem('loggedIn');
+          },
+          getLoggedOutData: function() {
+            return $window.localStorage && $window.localStorage.getItem('LoggedOut');
+          },
           getData: function() {
-            return $window.localStorage && $window.localStorage.getItem('notLoggedIn');
+            return $window.localStorage && $window.localStorage.getItem('loggedOut');
           },
       updateProfile: function(profileData) {
         return $http.put('/api/me', profileData);
       }
     };
+})
+
+.controller('NavbarController', function($scope, $auth, $http, $window, Account) {
+  console.log("This is the document cookie", document.cookie);
+  $scope.clickedLogin = function() {
+    console.log("GoingTOLOGIN");
+    Account.setLoggedOutData(false);
+    Account.setData(true);
+    Account.setCheckingIfLogInData(0);
+
+  };
+  $scope.goingToLogOut = function() {
+    console.log("GoingTOLOGOUT");
+    $Account.setLoggedOutData(true);
+    // $window.localStorage.loggedIn = 3;
+  };
+  $scope.isAuthenticated = function() {
+    // return $auth.isAuthenticated();
+    return $http.get('/checkIfLoggedIn').then(function(response){
+      return response.data.loggedIn;
+    // console.log("response from checkIfLoggedIn", response);
+  });
+  };
 })
 
 .factory('socket', ['$rootScope', function($rootScope) {
@@ -232,9 +274,12 @@ angular.module('myApp', [
 }])
 .controller('LogoutController', ['$scope', '$http', '$state','$window','Account', function($scope, $http, $state, $window, Account){
   console.log("Hello")
-      // delete $window.localStorage.UserDisplayName;
-      Account.setData(false);
-      console.log("day")
+      delete $window.localStorage.UserDisplayName;
+      // $window.localStorage.loggedIn = 0;
+
+      // $window.localStorage.loggedOut = true;
+      $Acount.setLoggedOutData(true);
+      // console.log("day");
       $state.go('login');
 }]);
 

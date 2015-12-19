@@ -181,8 +181,19 @@ app.get('/checkIfLoggedIn', function(req, res) {
 });
 
 app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
-  console.log("req.body in checkIfLoggedIn", req.body)
+  console.log("req.body in checkIfLoggedIn", req.body);
+  var currentUser;
+  User.findOne({displayName: req.body.displayName}, function (err, user) {
+        if (user) {
+          console.log("User in database", user)
+          res.json({user:user});
+        }else if (err) {
+          return "This is error message: " + err; 
+        }
 
+      });
+    console.log("This is currentUser", currentUser);
+  // res.send({response: currentUser});
 });
 
 // Simple route middleware to ensure user is authenticated.

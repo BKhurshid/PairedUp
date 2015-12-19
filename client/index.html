@@ -42,19 +42,19 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a ui-sref="login">Login</a></li>
+          <li><a ui-sref="login" >Login</a></li>
           <!-- <div ng-if="isAuthenticated()"> -->
             <li><a ui-sref="profile">Profile</a></li>
-            <li><a ui-sref="logout">Logout</a></li>
+            <li><a ui-sref="logout" ng-click= 'goingToLogOut()'>Logout</a></li>
             <li><a ui-sref="codeshare">Codeshare</a></li>
             <li><a ui-sref="chat">Chat</a></li>
           <!-- </div> -->
         </ul>
       </div><!--/.nav-collapse -->
     </div>
+  <a href="/auth/github" ng-click= 'clickedLogin()'>login with Passport Github</a>
   </nav>
 
-  <a href="/auth/github">login with Passport Github</a>
   <!-- Chat Template -->
    <!-- <form ng-submit="submit()" ng-controller="ExampleController">
      Enter text and hit enter:
