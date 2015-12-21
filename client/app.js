@@ -48,7 +48,7 @@ angular.module('myApp', [
     })
 
 	$urlRouterProvider.otherwise('/');
-
+//satellizer function, which we are not using anymore. 
 	$authProvider.github({
     clientId: "6ffd349ee17a258a13ff",
     url: '/auth/github',
@@ -60,6 +60,7 @@ angular.module('myApp', [
     type: '2.0',
     popupOptions: { width: 1020, height: 618 }
 	});
+//satellizer function, which we are not using anymore. 
 
 	function skipIfLoggedIn($q, $auth) {
 	      var deferred = $q.defer();
@@ -70,6 +71,7 @@ angular.module('myApp', [
 	      }
 	      return deferred.promise;
 	    }
+//satellizer function, which we are not using anymore. 
 
   function loginRequired($q, $location, $auth) {
 	      var deferred = $q.defer();
@@ -83,6 +85,7 @@ angular.module('myApp', [
 	    }
 
 })
+//Related to satellizer, which we are not using anymore. 
 
 .controller('LoginController', function($scope, $auth, $location, $http) {
 
@@ -117,6 +120,7 @@ angular.module('myApp', [
 })
 
 
+//Related to satellizer, which we are not using anymore. 
 
 .controller('LogoutController', function($location, $auth) {
     if (!$auth.isAuthenticated()) { return; }
@@ -134,14 +138,18 @@ angular.module('myApp', [
           return $http.get('/account');
       
       },
+      //sets the value, of whether the user is logged in, into the localStorage. 
       setData: function(val) {
             $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
             return this;
           },
+          //sets the value, of whether the user is logged our, into the localStorage. 
           setLoggedOutData: function(val) {
             $window.localStorage && $window.localStorage.setItem('Loggedout', val);
             return this;
           },
+          //sets the value, of the display name, into the localStorage. 
+
       setLogInData: function(val) {
             $window.localStorage && $window.localStorage.setItem('UserDisplayName', val);
             return this;
@@ -149,6 +157,7 @@ angular.module('myApp', [
           getLogInData: function() {
             return $window.localStorage && $window.localStorage.getItem('UserDisplayName');
           },
+          //another check to login, used to make separate decisions on whether the user is already logged in or logged out.
           setCheckingIfLogInData: function(val) {
             $window.localStorage && $window.localStorage.setItem('loggedIn', val || 1);
             return this;

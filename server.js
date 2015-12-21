@@ -4,13 +4,9 @@ var bodyParser = require('body-parser');
 var favicon = require('express-favicon');
 var favicon = require('serve-favicon');
 var fs = require('fs');
-//Need if we want to check req.file; 
 var multer  = require('multer')
 var cookieParser = require('cookie-parser');
-// var cors = require('cors');
 var request = require('request');
-// var jwt = require('jwt-simple');
-// var moment = require('moment');
 var path = require('path');
 var config = require('./config.js');
 var mongoose = require('mongoose');
@@ -23,14 +19,13 @@ var GitHubStrategy = require('passport-github').Strategy;
 var GITHUB_CLIENT_ID = config.TOKEN_SECRET ;
 var GITHUB_CLIENT_SECRET = config.GITHUB_SECRET;
 var session = require('express-session');
+//these two are redundant but if I take one out an error appears because we are using both. Will clean up later.
 var morgan = require('morgan');
 var logger = require('morgan');
-// var router = express.Router();
 
-//I believe we need if we want to check req.file
+// we need if we want to check req.file
 var upload = multer({ dest: 'uploads/' });
 
-//I believe we need if we want to check req.file
 //The docs are not clear on the next two lines. Both lines are necessary for sockets.
 var socketio = require('socket.io');
 var io = socketio(server);
@@ -39,7 +34,7 @@ console.log("App listening on port 8080");
 
 
 var db = require('./database/UserModel');
-var User = db.user
+var User = db.user;
 
 
 app.set('port', process.env.PORT || 8080);
@@ -100,16 +95,16 @@ passport.deserializeUser(function(obj, done) {
 });
 
 app.get('/', function(req, res){
-  console.log("Hello");
-  // res.send("hello world");
-  // res.render('index.html', { user: req.user });
 });
 
 // Use the GitHubStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and GitHub
 //   profile), and invoke a callback with a user object.
+
+//we will change the variable of the global profile to the most recent user. Had issues using because of the fact that req.user did not hold the users information and so we needed to add a  global variable called globalProfile.
 var globalProfile;
+
 // GET /auth/github
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in GitHub authentication will involve redirecting
@@ -119,7 +114,6 @@ var globalProfile;
 app.get('/auth/github',
   passport.authenticate('github'),
   function(req, res){
-    console.log("hello I am in authenticated");
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
   });
@@ -130,6 +124,7 @@ app.get('/auth/github',
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 //Step 2
+//middleware is unnecessary here, given the fact that we use client
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   //This is the request handler that will be called when they click the log in to get hub. 
@@ -139,7 +134,7 @@ app.get('/auth/github/callback',
     res.redirect('http://localhost:8080/#/profile');
   });
 
-
+//did not use, should delete. Had issues using because of the fact that req.user did not hold the users information and so we needed to add a  global variable called globalProfile. 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
@@ -147,45 +142,52 @@ app.get('/logout', function(req, res){
 
 
 // This will be the route to call when my page gets redirected to the profile. So my profile page should do a http.get to this route automatically once the user is logged in. 
-//Step 3
+//Step 3: This does not get called
 app.get('/account', ensureAuthenticated, function(req, res){
   // console.log('this is the req.user in the account route', req.user);
   res.json(req.user);
 });
-// var userSession;
+
+// This is where the information is sent to the client side. 
 app.get('/login', function(req, res){
     // console.log('this is the req.user in the login route', req);
-    console.log("This is the req.session", req.session);
     // console.log("This is the req.session", req.session);
-    console.log("globalProfile", globalProfile);
+    // console.log("This is the req.session", req.session);
+    // console.log("globalProfile", globalProfile);
     //to identify each individual user. This might not be the best idea as we want to access the cookie. 
     // userSession = req.sessions 
 
-    req.session.githubID = globalProfile.github;
-    req.session.userForTheMoment = globalProfile;
-    console.log("req.session after assignment of req.session.githubID", req.session);
-    if(typeof req.cookies['UserFromPearedUp'] !== 'undefined') {
-            console.log("This is req.cookies[userfromPearedUp]",req.cookies['UserFromPearedUp']);
-        }
-        console.log("This is req", req);
+    // req.session.githubID = globalProfile.github;
+    // req.session.userForTheMoment = globalProfile;
+    // console.log("req.session after assignment of req.session.githubID", req.session);
+    // if(typeof req.cookies['UserFromPearedUp'] !== 'undefined') {
+    //         console.log("This is req.cookies[userfromPearedUp]",req.cookies['UserFromPearedUp']);
+    //     }
+    //     console.log("This is req", req);
+
+
+    //send information to the client side
     res.json({profile: globalProfile, sessions: req.session});
 });
 
 
-
+//if the person is signed in and goes back to the profile page
 app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
-  console.log("req.body in checkIfLoggedIn", req.body);
+  // console.log("req.body in checkIfLoggedIn", req.body);
   var currentUser;
+
+  //find the user with the display name
   User.findOne({displayName: req.body.displayName}, function (err, user) {
         if (user) {
-          console.log("User in database", user)
+          // console.log("User in database", user)
+          //send that user to the clientSide.
           res.json({user:user});
         }else if (err) {
           return "This is error message: " + err; 
         }
 
       });
-    console.log("This is currentUser", currentUser);
+    // console.log("This is currentUser", currentUser);
   // res.send({response: currentUser});
 });
 
@@ -194,7 +196,9 @@ app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
-//Step 4:
+
+
+//Step 4: Unnecessary. 
 function ensureAuthenticated(req, res, next) {
   //req.isAuthenticated() is undefined here. Therefore it is false and not going through the if. 
   if (req.isAuthenticated()) { 
@@ -205,7 +209,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 
-
+//main logic for authentication goes here. 
 passport.use(new GitHubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
@@ -221,20 +225,31 @@ passport.use(new GitHubStrategy({
       // console.log("This is the avatar_url:::::::", profile._json.avatar_url)
       // User.findOrCreate
       // var user;
+
+
+      //see if the user is in the database
       User.findOne({github: profile.id}, function (err, user) {
         if (user) {
-          // console.log('this is the user', user);
+          //if the user is in database then assign the variable global profile to the user
         globalProfile = user;
+        //if the user is not in the database.
         }else {
+          //create a new user
           var user = new User();
+          //attach the property github to the user. 
           user.github = profile.id;
+          //attach the property picture to the user. 
           user.picture = profile._json.avatar_url;
+          //attach the displayName  to the user.
           user.displayName = profile.displayName;
+          //save the user into the database. 
           user.save(function() {
             // console.log(user + ' was saved');
           });
+          //set the globalProfile to the
           globalProfile = user;
         }
+
       });
       //TODO: This is where I will have to do actuall login stuff. Like saving user to database;
       // To keep the example simple, the user's GitHub profile is returned to
@@ -308,18 +323,10 @@ var usersRoom;
 io.on('connection', function(socket) {
   console.log('new connection');
 
-  //some room will be a variable. 
-  // io.to(usersRoom).emit(usersRoom);
-  //listen for a signal called add-customer. General code
-  // socket.on('add-customer', function(textFromEditor) {
-  //   console.log("Just heard a add-customer from Joseph");
-  //   //send a signal to frontEnd called notification
-  //   io.emit('notification', textFromEditor);
 
-  // });
-//general code
+//general code for  updating user's text with other users input
   socket.on('/create', function(data) {
-    usersRoom = data.title
+    usersRoom = data.title;
     //Have the socket join a rooom that is named after the title of their document
     socket.join(data.title);
     //Listen for a emit from client that's message is the title of the document
@@ -343,13 +350,13 @@ io.on('connection', function(socket) {
           console.log("err", err);
         }
         else {
-          console.log("Saved into MONGODB Success")
+          console.log("Saved into MONGODB Success");
         }
         //search for messages that have Joseph as the name of their chat
         User.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
           console.log("ALL THE JOSEPH MESSAGES", results);
         });
-      })
+      });
 
       //Sending a signal to the front end, along with the message from chat. This is so we can test the chat feature. Will build off of it later. 
       io.emit('publish message', message);
@@ -362,7 +369,7 @@ var content;
 var sendFileDataToClient = function(data) {
   //send the data from the file to the client. 
   io.emit('fileData', content);
-}
+};
 
 //Initiating the file upload. Immediately happens after someone clickes the upload file button
 app.post('/fileUpload', function(req, res, next) {
@@ -374,7 +381,7 @@ app.post('/fileUpload', function(req, res, next) {
         //content is being asynchronously set to the data in the file
         content = data;
         //To get around the synchronous behavior we wrap the next step into the function sendFileDataToClient. Which will just emit the content, but this way we are sure that content is done receiving the data from the file.
-        sendFileDataToClient(content)
+        sendFileDataToClient(content);
 
       }
   });

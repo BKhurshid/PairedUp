@@ -16,11 +16,13 @@ angular.module('myApp.codeshare', [ ])
 }])
 
 .controller('CodeShareController', ['$scope','$http','socket', function($scope, $http, socket){
+  //where the documents that are added are being saved. 
   $scope.filesList = [];
   $scope.id = 0;
   $scope.removeid = 0;
   $scope.modes = ['Scheme', 'XML', 'Javascript', 'HTML', 'Ruby', 'CSS', 'Curly', 'CSharp', 'Python', 'MySQL'];
   $scope.mode = $scope.modes[0];
+  //I believe the line below to be unnecessary now but not sure. 
   $http.get('/checkIfLoggedIn').then(function(response){
     console.log("response from checkIfLoggedIn", response);
   });
@@ -102,7 +104,7 @@ angular.module('myApp.codeshare', [ ])
     'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
  
   
-
+//add a document
   $scope.add = function(){
     $scope.id++
     var total = $scope.id + $scope.removeid;
@@ -112,7 +114,7 @@ angular.module('myApp.codeshare', [ ])
     $scope.aceModel = '';
 
   };
-
+//update a document
   $scope.update = function(id){
     var index = selectId(id);
     $scope.filesList[index].title = $scope.title;
@@ -125,8 +127,8 @@ angular.module('myApp.codeshare', [ ])
 //After OAuth is functional, research how to use another box for the question of who a user wants to share with. 
   $scope.shareWith = function(username) {
    //emiting a message to server called /create which will have the users join a room
-    socket.emit('/create', {title:$scope.title})
-    }
+    socket.emit('/create', {title:$scope.title});
+    };
 
   $scope.edit = function(id){
     var index = selectId(id);
@@ -141,7 +143,7 @@ angular.module('myApp.codeshare', [ ])
     var store = $scope.filesList[$scope.removeid];
     $scope.filesList.splice(index, 1);
     $scope.removeid++;
-    $scope.id--
+    $scope.id--;
     $scope.title = '';
     $scope.aceModel = '';
 
