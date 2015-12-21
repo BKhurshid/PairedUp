@@ -87,17 +87,6 @@ angular.module('myApp', [
 .controller('LoginController', function($scope, $auth, $location, $http) {
 
 
-   // $scope.login = function() {
-   //    $auth.login($scope.user)
-   //      .then(function() {
-   //    console.log($scope.user);
-   //        // toastr.success('You have successfully signed in!');
-   //        $location.path('/');
-   //      })
-   //      .catch(function(error) {
-   //        // toastr.error(error.data.message, error.status);
-   //      });
-   //  };
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
       .then(function(response) {
@@ -127,33 +116,12 @@ angular.module('myApp', [
     };
 })
 
-/*
 
-  Nav Bar Controller
-
-*/
-
-// .controller('NavbarController', function($scope, $auth, $http, $window) {
-//   console.log("This is the document cookie", document.cookie);
-
-//   $scope.goingToLogIn = function() {
-//     console.log("GoingTOLOGIN")
-//     // $window.localStorage.loggedIn = 3;
-//   }
-//   $scope.isAuthenticated = function() {
-//     // return $auth.isAuthenticated();
-//     return $http.get('/checkIfLoggedIn').then(function(response){
-//       return response.data.loggedIn;
-//     // console.log("response from checkIfLoggedIn", response);
-//   });
-//   };
-// })
 
 .controller('LogoutController', function($location, $auth) {
     if (!$auth.isAuthenticated()) { return; }
     $auth.logout()
       .then(function() {
-        // toastr.info('You have been logged out');
         $location.path('/');
       });
   })
@@ -163,17 +131,7 @@ angular.module('myApp', [
 
     return {
       getProfile: function() {
-        console.log('inside the factory-------------');
-          return $http.get('/account')
-        // .then(function(req, res){
-        //   console.log('this is a successful callback of /account', res);
-        //   console.log('this is a successful callback of /account for req', req);
-        //   console.log(typeof req);
-        //   // var test = JSON.parse(req);
-        //   // console.log(test);
-        //   console.log('this is req.data.whatever', req.data.profile.username)
-        //   // $scope.username = req.data.profile.username;
-        // })
+          return $http.get('/account');
       
       },
       setData: function(val) {
@@ -199,7 +157,7 @@ angular.module('myApp', [
             return $window.localStorage && $window.localStorage.getItem('loggedIn');
           },
           getLoggedOutData: function() {
-            return $window.localStorage && $window.localStorage.getItem('LoggedOut');
+            return $window.localStorage && $window.localStorage.getItem('Loggedout');
           },
           getData: function() {
             return $window.localStorage && $window.localStorage.getItem('notLoggedIn');
@@ -213,23 +171,16 @@ angular.module('myApp', [
 .controller('NavbarController', function($scope, $auth, $http, $window, Account) {
   console.log("This is the document cookie", document.cookie);
   $scope.clickedLogin = function() {
-    console.log("GoingTOLOGIN");
     Account.setLoggedOutData(false);
     Account.setData(true);
     Account.setCheckingIfLogInData(2);
-    console.log("getcheckingIfLoginData", Account.getCheckingIfLogInData())
-
   };
   $scope.goingToLogOut = function() {
-    console.log("GoingTOLOGOUT");
     Account.setLoggedOutData(true);
-    // $window.localStorage.loggedIn = 3;
   };
   $scope.isAuthenticated = function() {
-    // return $auth.isAuthenticated();
     return $http.get('/checkIfLoggedIn').then(function(response){
       return response.data.loggedIn;
-    // console.log("response from checkIfLoggedIn", response);
   });
   };
 })
@@ -274,7 +225,6 @@ angular.module('myApp', [
     };
 }])
 .controller('LogoutController', ['$scope', '$http', '$state','$window','Account', function($scope, $http, $state, $window, Account){
-  console.log("Hello")
       delete $window.localStorage.UserDisplayName;
       // $window.localStorage.loggedIn = 0;
 

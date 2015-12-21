@@ -172,13 +172,6 @@ app.get('/login', function(req, res){
 });
 
 
-app.get('/checkIfLoggedIn', function(req, res) {
-  if (req.session.githubID === undefined){
-    res.json({loggedIn: false}) ;     
-  }else {
-    res.json({loggedIn: true});
-  }
-});
 
 app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
   console.log("req.body in checkIfLoggedIn", req.body);
