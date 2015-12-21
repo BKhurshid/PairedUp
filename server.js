@@ -80,6 +80,7 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -133,6 +134,7 @@ app.get('/auth/github/callback',
     //res.redirect('/');
     res.redirect('http://localhost:8080/#/profile');
   });
+
 
 //did not use, should delete. Had issues using because of the fact that req.user did not hold the users information and so we needed to add a  global variable called globalProfile. 
 app.get('/logout', function(req, res){
@@ -286,6 +288,13 @@ passport.use(new GitHubStrategy({
 // });
 
 
+// <<<<<<< HEAD
+//for every path request. 
+app.get('*', function(req, res, next) {
+  // load the single view file (angular will handle the page changes on the front-end)
+        res.sendFile(__dirname + '/client/index.html'); 
+        next();
+// =======
 /*
  |--------------------------------------------------------------------------
  | Unlink Provider
@@ -307,8 +316,14 @@ passport.use(new GitHubStrategy({
 //     user[provider] = undefined;
 //     user.save(function() {
 //       res.status(200).end();
+// <<<<<<< HEAD
 //     });
 //   });
+// =======
+// >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
+    });
+  // });
+// >>>>>>> cd58d36e8a649729d8b8168a99a9e1994678c433
 // });
 
 
@@ -334,8 +349,11 @@ io.on('connection', function(socket) {
       //send a signal to frontEnd called notification
       socket.broadcast.emit('notification', data);
       });
+
     });
   //working on chat feature with sockets
+
+  //signal will be chat room. 
     socket.on('new message', function(message) {
       //general algorithim for storing messages shall go here. 
 
@@ -352,11 +370,34 @@ io.on('connection', function(socket) {
         else {
           console.log("Saved into MONGODB Success");
         }
+// <<<<<<< HEAD
+
+
+
+//         /*This code is written as if we have the user and we have a button that asks to send message to PERSONNAME
+
+//         UNCOMMENT WHEN WE HAVE STABLE USERS (WHEN OAUTH WORKS)
+//         */
+        
+//         //Not sure which name will be first given that it is random
+
+//         var nameOfDocumentCheck1 = message.userWhoClicked  + message.userWhoWasClicked; 
+//         var nameOfDocumentCheck2 = message.userWhoWasClicked + message.userWhoClicked;
+
+
+//           //Check database (through meshing the two names back to back. check both versions- e.g. joshjane and janejosh) to see if a previous room between these two users ever occured. 
+//           var documentOfMessages = db.messages.find({ nameOfChat: nameOfDocumentCheck2}, function(err, results) {
+//                   return results; 
+//         }) ||  db.messages.find({ nameOfChat: nameOfDocumentCheck1}, function(err, results) {
+//                   return results; 
+// =======
         //search for messages that have Joseph as the name of their chat
         User.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
           console.log("ALL THE JOSEPH MESSAGES", results);
+// >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
         });
       });
+
 
       //Sending a signal to the front end, along with the message from chat. This is so we can test the chat feature. Will build off of it later. 
       io.emit('publish message', message);
@@ -387,8 +428,5 @@ app.post('/fileUpload', function(req, res, next) {
   });
 });
 
-
-
-  
 
 

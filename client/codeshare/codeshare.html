@@ -2,6 +2,12 @@
 <h1>The Codesharing experience will live here </h1>
 <div class="row">
   <div class="col-md-2"> 
+  <!-- Form for uploading files -->
+  <form ng-submit="getFileInfo()" ng-controller="ExampleController" action="/fileUpload" enctype="multipart/form-data" method="post">
+      <input type="file" name="string">
+      <input type="submit" value="Upload File">
+  </form>
+  <!-- Ending form for uploading files -->
     <button ng-click='add()'>Add</button>
     <div ng-repeat=" file in filesList"><!-- {{ file.title }}  -->
       <button ng-click='delete(file.id)'>Delete</button>
@@ -12,6 +18,9 @@
       <button ng-click='update(file.id)'>Update</button>
     </div>
   </div> 
+
+<a href="./downloadFileExample.txt" download >Download This</a>
+
     <div class="col-md-8">
         <form ng-submit="getFileInfo()" ng-controller="ExampleController" action="/fileUpload" enctype="multipart/form-data" method="post">
             <input type="file" name="string">
