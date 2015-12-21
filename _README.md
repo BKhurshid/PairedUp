@@ -50,7 +50,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 
 
-
+Notes: File upload prone to error. Works but causes error after about 30 seconds.
 
 Instructions On How To User Site: 
 1) npm install and bower install. Also, install mongod if you don't already have it.
