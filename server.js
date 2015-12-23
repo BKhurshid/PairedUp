@@ -35,7 +35,7 @@ console.log("App listening on port 8080");
 
 var db = require('./database/UserModel');
 var User = db.user;
-
+var userDocument = db.userDocument; 
 
 app.set('port', process.env.PORT || 8080);
 app.use(upload.single('string'));
@@ -130,7 +130,6 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   //This is the request handler that will be called when they click the log in to get hub. 
   function(req, res) {
-    console.log("This is the request handler that will be called when they click the log in to github");
     //res.redirect('/');
     res.redirect('http://localhost:8080/#/profile');
   });
@@ -404,6 +403,46 @@ io.on('connection', function(socket) {
       });
 });
 
+app.post('/savingDocumentsToDatabase', function(req,res) {
+    var doc = new userDocument({id: req.body.id, title: req.body.title, mode: req.body.mode, displayName: req.body.displayName, code: req.body.code}); 
+    doc.save(function() {});
+});
+
+
+app.post('/retrievingDocumentsForUser', function(req,res) {
+  userDocument.find({displayName: req.body.displayName}, function(err, results){
+    res.json(results);
+  });
+});
+
+//delete works but now I need to update every single document's id to --1. 
+app.post('/deleteDocumentsForUser', function(req,res) {
+  var idOfDeletedDoc = req.body.id;
+
+
+  userDocument.find({displayName: req.body.displayName, title: req.body.title}, function(err, result){
+    return result;
+  }).remove(function(result) {});
+
+
+//find all the documents the user has made
+  userDocument.find({displayName: req.body.displayName}, function(err, results) {
+    //iterate through the documents
+    for (var i =0; i < results.length; i++) {
+      //if the user's document is greater than the id of the document we destroyed.
+      if (results[i].id > idOfDeletedDoc) {
+        //create a new id which is the id of the document we are currently iterating thorugh - 1.
+        var newId = results[i].id - 1;
+        //set that document to the  
+        userDocument.update({id: results[i].id}, {id: newId}, {}, function (err, numAffected) {
+        });
+      }
+    }
+    //sending this so we can utilize the promise structure from angular $http.post
+    res.send({});
+  });
+
+});
 //content will hold the data from the uploaded file
 var content;
 //Need to build this function to get around asynchronous behavior.

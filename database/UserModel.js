@@ -41,12 +41,19 @@ var messageSchema = new Schema({
     nameOfChat: String, 
     messageContent: String
 });
+var documentSchema = new Schema ({
+    id: Number, 
+    title: String, 
+    mode: String,
+    displayName: String, 
+    code: String
+});
 // userSchema.methods.speak = function () {
 //  var greeting = this.username? "Meow name is " + this.username: "I don't have a name";
 //  console.log(greeting);
 // }
 
-
+var Document = mongoose.model('Document', documentSchema);
 var Message = mongoose.model('Messages', messageSchema);
 var User = mongoose.model("User", userSchema);
 
@@ -73,5 +80,6 @@ var User = mongoose.model("User", userSchema);
 */
 module.exports = {
     user: User,
-    messages: Message
+    messages: Message,
+    userDocument: Document
 };
