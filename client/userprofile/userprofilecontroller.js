@@ -62,11 +62,13 @@ These functions are for the deployed version and I am not up to date on their pu
       Account.setCheckingIfLogInData(1);
       //accessing the github passport. 
       $scope.getProfile().then(function() {
+        $http.get('/isLoggedIn', {displayName: Account.getLogInData});
 
 
      }, function(err) {
        console.log("This is a err", err);
      });
+      //get request to set the users loggedIn information in the database to true; 
       //A outer chekc to see if the user is logged in or not
     }else if (Account.getCheckingIfLogInData() == 1 ){
       //if they are not logged in, then redirect them to the login page.

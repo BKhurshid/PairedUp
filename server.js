@@ -327,8 +327,20 @@ app.get('*', function(req, res, next) {
 
 
 
+//get request that sets the users loggedIn Information to True.  This will be called when someone goes onto the profile page. 
+app.get('/isLoggedIn', function(req, res) {
+  //set the user loggedIn database property to true. 
+  var displayName =  req.body.displayName;
+  User.update({displayName: displayName }, {loggedIn: true}, {}, function (err, numAffected) {
+   });
+});
 
-
+app.get('/isLoggedOut', function(req, res) {
+  //set the user loggedIn database property to false. 
+  var displayName =  req.body.displayName;
+  User.update({displayName: displayName }, {loggedIn: false}, {}, function (err, numAffected) {
+  });
+});
 
 var usersRoom;
 
@@ -336,6 +348,10 @@ var usersRoom;
 //The first event we will use is the connection event. It is fired when a client tries to connect to the server; Socket.io creates a new socket that we will use to receive or send messages to the client.
 io.on('connection', function(socket) {
   console.log('new connection');
+
+
+//A listner if someone wants to connect with them. Store that info in the database. 
+
 
 
 //general code for  updating user's text with other users input

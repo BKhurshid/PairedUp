@@ -26,6 +26,9 @@ var userSchema = new Schema({
  displayName: String,
  // name: String,
  picture: String,
+ loggedIn: Boolean, 
+ wantsToConnect: Boolean, 
+ connected: Boolean, 
  github: String
  // lastname: String,
  // password: String, 
@@ -35,6 +38,7 @@ var userSchema = new Schema({
  // javascript: String, 
  // skill: String,
  // interest: String
+
 });
 
 var messageSchema = new Schema({
