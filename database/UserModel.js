@@ -29,7 +29,11 @@ var userSchema = new Schema({
  loggedIn: Boolean, 
  wantsToConnect: Boolean, 
  connected: Boolean, 
- github: String
+/* 
+   Update for ShareWith Feature
+
+socketID: String, 
+*/ github: String
  // lastname: String,
  // password: String, 
  // officeHours: String,

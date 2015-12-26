@@ -51,24 +51,24 @@ app.use(express.static(__dirname + '/client'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(session({ 
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(session({ 
       name: "UserFromPearedUp",
       secret: "keyboard cat", 
       // cookie: {maxAge: 3600000},
       resave: true, 
       saveUninitialized: true, 
       cookie: { path: '/', httpOnly: false, secure: false, maxAge: null }
-       }));
-      
+  }));
+  
 
 // Force HTTPS on Heroku
 if (app.get('env') === 'production') {
   app.use(function(req, res, next) {
     var protocol = req.get('x-forwarded-proto');
     protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
-  });
+});
 }
 
 //to allow cross origin (need to add more to this comment.)
@@ -113,11 +113,11 @@ var globalProfile;
 //   back to this application at /auth/github/callback
 //Step 1
 app.get('/auth/github',
-  passport.authenticate('github'),
-  function(req, res){
+        passport.authenticate('github'),
+        function(req, res){
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
-  });
+});
 
 // GET /auth/github/callback
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -127,12 +127,12 @@ app.get('/auth/github',
 //Step 2
 //middleware is unnecessary here, given the fact that we use client
 app.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
+        passport.authenticate('github', { failureRedirect: '/login' }),
   //This is the request handler that will be called when they click the log in to get hub. 
   function(req, res) {
     //res.redirect('/');
     res.redirect('http://localhost:8080/#/profile');
-  });
+});
 
 
 //did not use, should delete. Had issues using because of the fact that req.user did not hold the users information and so we needed to add a  global variable called globalProfile. 
@@ -179,15 +179,15 @@ app.post('/getFromDatabaseBecausePersonSignedIn', function(req, res) {
 
   //find the user with the display name
   User.findOne({displayName: req.body.displayName}, function (err, user) {
-        if (user) {
+    if (user) {
           // console.log("User in database", user)
           //send that user to the clientSide.
           res.json({user:user});
-        }else if (err) {
+      }else if (err) {
           return "This is error message: " + err; 
-        }
+      }
 
-      });
+  });
     // console.log("This is currentUser", currentUser);
   // res.send({response: currentUser});
 });
@@ -204,9 +204,9 @@ function ensureAuthenticated(req, res, next) {
   //req.isAuthenticated() is undefined here. Therefore it is false and not going through the if. 
   if (req.isAuthenticated()) { 
     return next(); 
-  }
-  
-  res.redirect('/login');
+}
+
+res.redirect('/login');
 }
 
 
@@ -215,7 +215,7 @@ passport.use(new GitHubStrategy({
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:8080/auth/github/callback"
-  },
+},
   //Step 5
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -232,9 +232,9 @@ passport.use(new GitHubStrategy({
       User.findOne({github: profile.id}, function (err, user) {
         if (user) {
           //if the user is in database then assign the variable global profile to the user
-        globalProfile = user;
+          globalProfile = user;
         //if the user is not in the database.
-        }else {
+    }else {
           //create a new user
           var user = new User();
           //attach the property github to the user. 
@@ -246,12 +246,12 @@ passport.use(new GitHubStrategy({
           //save the user into the database. 
           user.save(function() {
             // console.log(user + ' was saved');
-          });
+        });
           //set the globalProfile to the
           globalProfile = user;
-        }
+      }
 
-      });
+  });
       //TODO: This is where I will have to do actuall login stuff. Like saving user to database;
       // To keep the example simple, the user's GitHub profile is returned to
       // represent the logged-in user.  In a typical application, you would want
@@ -259,8 +259,8 @@ passport.use(new GitHubStrategy({
       // and return that user instead.
       // globalProfile = profile;
       return done(null, profile);
-    });
-  }
+  });
+}
 ));
 
 
@@ -291,8 +291,8 @@ passport.use(new GitHubStrategy({
 //for every path request. 
 app.get('*', function(req, res, next) {
   // load the single view file (angular will handle the page changes on the front-end)
-        res.sendFile(__dirname + '/client/index.html'); 
-        next();
+  res.sendFile(__dirname + '/client/index.html'); 
+  next();
 // =======
 /*
  |--------------------------------------------------------------------------
@@ -320,12 +320,13 @@ app.get('*', function(req, res, next) {
 //   });
 // =======
 // >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
-    });
+});
   // });
 // >>>>>>> cd58d36e8a649729d8b8168a99a9e1994678c433
 // });
 
-
+/*
+Code for improving shareWith feature
 
 //get request that sets the users loggedIn Information to True.  This will be called when someone goes onto the profile page. 
 app.get('/isLoggedIn', function(req, res) {
@@ -333,6 +334,10 @@ app.get('/isLoggedIn', function(req, res) {
   var displayName =  req.body.displayName;
   User.update({displayName: displayName }, {loggedIn: true}, {}, function (err, numAffected) {
    });
+  console.log("socketIDDDDDDD", socketID);
+  User.update({displayName: displayName}, {socketID: socketID}, {}, function (err, numAffected) {
+  });
+
 });
 
 app.get('/isLoggedOut', function(req, res) {
@@ -342,20 +347,28 @@ app.get('/isLoggedOut', function(req, res) {
   });
 });
 
-var usersRoom;
+var socketID;
 
+*/
+var usersRoom;
 
 //The first event we will use is the connection event. It is fired when a client tries to connect to the server; Socket.io creates a new socket that we will use to receive or send messages to the client.
 io.on('connection', function(socket) {
   console.log('new connection');
+/*  
+Code for improving shareWith feature
+  socketID = socket.id; 
+  socket.on('askId', function(data){
+    console.log("socket.idd", socket.id);
+  });
 
 
-//A listner if someone wants to connect with them. Store that info in the database. 
-
-
+//A listener if someone wants to connect with them. Store that info in the database. 
+console.log("This is the socket id", socket.id);
+*/
 
 //general code for  updating user's text with other users input
-  socket.on('/create', function(data) {
+socket.on('/create', function(data) {
     usersRoom = data.title;
     //Have the socket join a rooom that is named after the title of their document
     socket.join(data.title);
@@ -363,28 +376,28 @@ io.on('connection', function(socket) {
     socket.on(data.title, function(data) {
       //send a signal to frontEnd called notification
       socket.broadcast.emit('notification', data);
-      });
+  });
 
-    });
+});
   //working on chat feature with sockets
 
   //signal will be chat room. 
-    socket.on('new message', function(message) {
+  socket.on('new message', function(message) {
       //general algorithim for storing messages shall go here. 
 
       //hard coded message document to test persisting chat data
       var JosephMessages = new User.messages({
         nameOfChat: "Joseph", 
         messageContent: "This is a message"
-      });
+    });
       //save josephMessages document into the database
       JosephMessages.save(function(err, results){
         if (err) {
           console.log("err", err);
-        }
-        else {
+      }
+      else {
           console.log("Saved into MONGODB Success");
-        }
+      }
 // <<<<<<< HEAD
 
 
@@ -393,7 +406,7 @@ io.on('connection', function(socket) {
 
 //         UNCOMMENT WHEN WE HAVE STABLE USERS (WHEN OAUTH WORKS)
 //         */
-        
+
 //         //Not sure which name will be first given that it is random
 
 //         var nameOfDocumentCheck1 = message.userWhoClicked  + message.userWhoWasClicked; 
@@ -410,13 +423,13 @@ io.on('connection', function(socket) {
         User.messages.find({ nameOfChat: 'Joseph' }, function(err, results) {
           console.log("ALL THE JOSEPH MESSAGES", results);
 // >>>>>>> d2ca01f956b54be701230846e82c61adfda832e7
-        });
-      });
+});
+    });
 
 
       //Sending a signal to the front end, along with the message from chat. This is so we can test the chat feature. Will build off of it later. 
       io.emit('publish message', message);
-      });
+  });
 });
 
 app.post('/savingDocumentsToDatabase', function(req,res) {
@@ -428,7 +441,7 @@ app.post('/savingDocumentsToDatabase', function(req,res) {
 app.post('/retrievingDocumentsForUser', function(req,res) {
   userDocument.find({displayName: req.body.displayName}, function(err, results){
     res.json(results);
-  });
+});
 });
 
 //delete works but now I need to update every single document's id to --1. 
@@ -438,11 +451,11 @@ app.post('/deleteDocumentsForUser', function(req,res) {
 
   userDocument.find({displayName: req.body.displayName, title: req.body.title}, function(err, result){
     return result;
-  }).remove(function(result) {});
+}).remove(function(result) {});
 
 
 //find all the documents the user has made
-  userDocument.find({displayName: req.body.displayName}, function(err, results) {
+userDocument.find({displayName: req.body.displayName}, function(err, results) {
     //iterate through the documents
     for (var i =0; i < results.length; i++) {
       //if the user's document is greater than the id of the document we destroyed.
@@ -452,11 +465,11 @@ app.post('/deleteDocumentsForUser', function(req,res) {
         //set that document to the  
         userDocument.update({id: results[i].id}, {id: newId}, {}, function (err, numAffected) {
         });
-      }
     }
+}
     //sending this so we can utilize the promise structure from angular $http.post
     res.send({});
-  });
+});
 
 });
 //content will hold the data from the uploaded file
@@ -470,17 +483,17 @@ var sendFileDataToClient = function(data) {
 //Initiating the file upload. Immediately happens after someone clickes the upload file button
 app.post('/fileUpload', function(req, res, next) {
   //collect the data from the file in a human readable form. 
-     fs.readFile(req.file.path, 'ascii', function ( error, data ) {
+  fs.readFile(req.file.path, 'ascii', function ( error, data ) {
       if ( error ) {
         console.error( error );
-      } else {
+    } else {
         //content is being asynchronously set to the data in the file
         content = data;
         //To get around the synchronous behavior we wrap the next step into the function sendFileDataToClient. Which will just emit the content, but this way we are sure that content is done receiving the data from the file.
         sendFileDataToClient(content);
 
-      }
-  });
+    }
+});
 });
 
 

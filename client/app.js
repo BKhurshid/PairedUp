@@ -256,8 +256,10 @@ angular.module('myApp', [
     };
 }])
 .controller('LogoutController', ['$scope', '$http', '$state','$window','Account', function($scope, $http, $state, $window, Account){
+
+/*   Update for ShareWith Feature
       $http.get('/isLoggedOut', {displayName: Account.getLogInData()});      
-      delete $window.localStorage.UserDisplayName;
+*/      delete $window.localStorage.UserDisplayName;
       
       //get request to set the user's loggedIn property in the database to false. 
       $state.go('login');

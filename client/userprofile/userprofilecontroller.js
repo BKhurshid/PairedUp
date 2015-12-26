@@ -1,5 +1,5 @@
 angular.module('myApp')
-  .controller('ProfileController', function($scope, $http, $auth,$q, $state,$window, Account) {
+  .controller('ProfileController', function($scope, $http, $auth,$q, $state,$window, socket, Account) {
     var loggedInInformation; 
     $scope.getProfile = function() {
       Account.setData(false); 
@@ -8,6 +8,15 @@ angular.module('myApp')
         .then(function(response) {
           //data binding to show on the html page
           $scope.user = response.data.profile;
+          //sets a socket listener for when others try to share their document.
+          socket.on('possibleCodeShare', function(data) {
+            //data should also have the other users displayName
+            //if the displayName from the socket information matches this specific user's displayName
+            if (data.displayName === response.data.profile.displayName) {
+              //emit a join room 
+              // socket.emit('createConnection', {displayName: });
+            }
+          });
           //sets the displayName in the local Storage of the browser. 
           Account.setLogInData(response.data.profile.displayName);
           return {};
@@ -51,6 +60,9 @@ These functions are for the deployed version and I am not up to date on their pu
     };
     
  */
+
+ socket.emit("askId");
+
  //the first time a user comes to the profile page without signing in. 
     if (Account.getCheckingIfLogInData() === null) {
       Account.setCheckingIfLogInData(1);
@@ -62,9 +74,12 @@ These functions are for the deployed version and I am not up to date on their pu
       Account.setCheckingIfLogInData(1);
       //accessing the github passport. 
       $scope.getProfile().then(function() {
+        
+
+/*   Update for ShareWith Feature
         $http.get('/isLoggedIn', {displayName: Account.getLogInData});
 
-
+*/
      }, function(err) {
        console.log("This is a err", err);
      });
