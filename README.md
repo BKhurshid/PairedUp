@@ -1,3 +1,4 @@
+*
 # PairedUp
 
 A WorldWide Pair Programming WebApp. 
