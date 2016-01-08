@@ -1,17 +1,27 @@
 body {
-  padding: 50px 0px 30px 30px;
+  padding: 0px 0px 0px 0px;
+  background-color: #fff;
+  color: #000;
+  overflow: none;
+  background-size: 600px;
 }
+
 
 /* Styles for signin.html */
 .btn-default {
-	padding: 20px;
-	margin: 15px;
-	/*font-size: 14px;*/	
+/*  padding: 20px;
+margin: 15px;*/
+/*font-size: 14px;*/  
 }
 
 .codeshare-wrapper{
-  width:1280px;
-  height: 900px;
+  padding:60px;
+  /*width:1280px;*/
+  height: 650px;
+}
+
+td.list {
+  width: 180px;
 }
 
 #slider1 {
@@ -20,12 +30,12 @@ body {
 
 /* Styles for login.html */
 .starter-template {
-  padding: 40px 15px;
+  /*padding: 40px 15px;*/
   text-align: center;
-  height: 900px;
+  height: 700px;
   background-image: url(night-lights.jpg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; 
   padding: 200px 0px 300px 0px;
   color: #FFF;
 }
@@ -40,29 +50,130 @@ body {
 
 }
 
+td img {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+}
+
+.listname{
+  width: 200px;
+}
+
+.topright {
+  padding: 0px;
+  text-align: right;
+  margin-right: 50px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.topright img {
+  /*position: absolute;*/
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+}
+
+button {
+  background-color: #fff;
+  color: #000;
+}
+
+td {
+  padding: 0px 0px 10px 10px;
+}
+
+.userlist {
+  height: 550px;
+  overflow: scroll;
+}
+
+td.name{
+  width: 500px;
+  font-weight: 900;
+  color:#333;
+}
+
+.btn {
+  border:none;
+}
+td.text {
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+td.created{
+  color: #505050;
+}
+
+span.glyphicon{
+  font-size: 1.5em;
+}
 .card{
-  height: 300px;
-  width: 300px;
-  border-style: solid;
+  height: 150px;
+  width: 250px;
+  /*border-style: solid;*/
+  padding: 10px;
+  /*background-color: #fff;*/
+  color: #000;
+  font-size: 1em;
+}
+
+/* Styles for profile.html */
+#padded {
+  padding-top: 30px;
+  /*padding: 20px;*/
+  margin: 3px;
+}
+
+#cool {
+  /*padding: 60px 0px 0px 0px;*/
+  left padding: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+#sweet {
+  left padding: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+#whiteText {
+  color: white;
+  font-style: Helvetica;
 }
 
 /* Styles for codeshare.html */
-.ace_editor { height: 200px; } 
+.ace_editor { 
+  height: 600px;
+  width: 100%; 
+} 
 
 .chat-container {
+  padding: 60px 0px 60px;
   width: 980px;
   height: 600px;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 0px;
 }
 .msg-container {
-  height: 400px;
+  height: 300px;
   border: 2px;
   overflow: scroll;
 }
 
+a.simple-dropdown{
+  text-decoration: none;
+}
+
+input {
+  color: #000;
+}
+
 video {
-  width: 500%;
+  width: 250px;
   border-radius: 10px;
 }
 

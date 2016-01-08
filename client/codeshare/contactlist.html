@@ -1,0 +1,42 @@
+
+
+        <hr>
+        <div uib-collapse="isCollapsed">
+          <div class="userlist">
+
+  <!--///////////////////////////////////////////////////////////////////////////
+    ///Imported Contacts list 
+    //////////////////////////////////////////////////////////////////////////-->
+
+    <div>
+
+      <div class="card" ng-repeat="info in allUsers">
+
+        <table>
+    
+           <tr>
+            <td valign="middle"colspan="4">
+              <img ng-src="{{info.picture || 'https://placehold.it/100x100'}}">
+            </td>
+        
+          </tr>
+
+            <tr>
+            <td class="list">{{info.displayName}}</td>
+            <td>
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="initChat(info)" target="_blank"></span >
+            </td>
+            <td> 
+              <span class="glyphicon glyphicon-share" aria-hidden="true" ng-click="initSharing(info.displayName)"></span >
+            </td>
+          </tr>
+           
+
+        </table>
+        </br>
+      </div>
+    </div>
+
+  </div>
+</div>
+          </div>

@@ -1,23 +1,39 @@
-<div class="row">
+<div class="row" id="whiteText" "cool">
+
+	<h1>Current Skills</h1>
+
 	<div class="col-md-4">
-		<h1>Current Skills</h1>
+		<h3 class="danger">
 
-		<label>AngularJS</label><input ng-model="angular" id="slider1" type="range" min="0" max="5" step="1" />
+		<label>AngularJS</label><input ng-model="angular" id="slider1" type="range" min="0" max="100" step="10" />
 
-		<label>NodeJS</label><input ng-model="node" id="slider1" type="range" min="0" max="5" step="1" />
+		<label>NodeJS</label><input ng-model="node" id="slider1" type="range" min="0" max="100" step="10" />
 
-		<label>jQuery</label><input ng-model="jquery" id="slider1" type="range" min="0" max="5" step="1" />
+		<label>jQuery</label><input ng-model="jquery" id="slider1" type="range" min="0" max="100" step="10" />
 
-		<label>HTML</label><input ng-model="html" id="slider1" type="range" min="0" max="5" step="1" />
+		<label>HTML</label><input ng-model="html" id="slider1" type="range" min="0" max="100" step="10" />
 
-		<label>CSS</label><input ng-model="css" id="slider1" type="range" min="0" max="5" step="1" />
+		<label>CSS</label><input ng-model="css" id="slider1" type="range" min="0" max="100" step="10" />
+		</h3>
 	</div>
+
 	<div class="col-md-4">
-		</br></br></br></br></br></br>
-		<button ng-click="add()">Save</button>
-		</br></br>
+		<h3 class="danger">
+
+			<label>Java</label><input ng-model="java" id="slider1" type="range" min="0" max="100" step="10" />
+
+			<label>Ruby</label><input ng-model="ruby" id="slider1" type="range" min="0" max="100" step="10" />
+
+			<label>Swift</label><input ng-model="swift" id="slider1" type="range" min="0" max="100" step="10" />
+
+			<label>Python</label><input ng-model="python" id="slider1" type="range" min="0" max="100" step="10" />
+
+			<label>Go</label><input ng-model="Go" id="slider1" type="range" min="0" max="100" step="10" />
+		</h3>
+	
+	</div>
+		<br>
 		
+		<a href="#" ui-sref="codeshare" class="btn btn-primary btn-lg" style="text-align: center;" ng-click="add()">Update Profile + Join the Network!</a>
 
-		<a class="btn bg-success" ui-sref="profile.futureskills">NEXT</a>
-	</div>
 </div>

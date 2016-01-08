@@ -1,5 +1,5 @@
 {
-  "name": "testapp",
+  "name": "PairedUp",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/kmcelveen/PairedUp.git"
   },
-  "author": "MagCacti",
+  "author": "Joseph Sun, Carine Todmia, Kristina McElveen, Aheri Stanford-Asiyo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kmcelveen/PairedUp/issues"

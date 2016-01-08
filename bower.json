@@ -23,8 +23,10 @@
     "angular": "~1.4.8",
     "angular-ui-ace": "~0.2.3",
     "angular-socket-io": "~0.7.0",
+    "angular-xeditable": "~0.1.9",
     "eventEmitter": "~4.3.0",
-    "angular-ui-router": "~0.2.15"
+    "angular-ui-router": "~0.2.15",
+    "angular-ui-notification": "~0.1.0"
   },
   "resolutions": {
     "angular-ui-ace": "~0.2.3"

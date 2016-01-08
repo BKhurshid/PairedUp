@@ -1,14 +1,18 @@
 angular.module('myApp')
 	.controller('FutureSkillsController', ['$scope','profiledata', 'Account', function($scope, profiledata, Account){
 		$scope.profile;
-	var account = Account.getUserDisplayName()
-	profiledata.findUser({user:account}).then(function(results){
-	  $scope.profile = results.data.github
-	  console.log('these are the results', results.data.github)
-	  })
+	// var account = Account.getUserDisplayName()
+	// profiledata.findUser({user:account}).then(function(results){
+	//   $scope.profile = results.data.github
+	//   })
+
+	Account.getProfile().success(function(data){
+		  $scope.profile = data.profile.github
+		  console.log('this is the data.profile:', data.profile)
+	})
 
 		$scope.add = function(){
-			profiledata.futureSkills({github: $scope.profile, python: $scope.python, java: $scope.java, swift: $scope.swift, android: $scope.android, ruby: $scope.ruby})
+			profiledata.futureSkills({github: $scope.profile, python: $scope.python, java: $scope.java, swift: $scope.swift, go: $scope.go, ruby: $scope.ruby, angular: $scope.angular, jQuery: $scope.jQuery, html: $scope.html, css: $scope.css})
 		}
 
 	}])

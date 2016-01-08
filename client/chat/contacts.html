@@ -1,14 +1,14 @@
 <div ng-repeat="info in allUsers">
-	{{info.displayName}}, knows
-		
-			angular: {{info.skills.angular}}
-			node: {{info.skills.node}}
-			jquery: {{info.skills.jquery}}
-			html: {{info.skills.html}}
-			css: {{info.skills.css}}
-	and wants to know; 
-		{{info.futureskills}}
+	<table>
+		<tr>
 
-	<button ng-click="initChat(info)">Send Message</button>
+			<td><img ng-src="{{info.picture || 'https://placehold.it/50x50'}}"><td>
+			<td class="listname">{{info.displayName}}</td>
+			<td><span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="initChat(info)" target="_blank"></span></td>
+		</tr>
+
+	</table>	
+
+
 
 </div>

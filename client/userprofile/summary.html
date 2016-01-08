@@ -1,42 +1,90 @@
-<div class="row">
+<div class="row" id="padded">
 <div class="col-md-4">
-<h1>Profile Summary</h1>
-<h5>This is what i know now</h5>
+
+<div class="well">
+    <h3>PairedUp Stats</h3>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge">{{user.mentees.length}}</span>
+        Mentees
+      </li>
+      <li class="list-group-item">
+        <span class="badge">5</span>
+        Mentors
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{numberOfDocs}}</span>
+        Code Docs Added
+      </li>
+    </ul>
+  </div>  
+
+<h3 class="text-danger">Skills Summary</h3>
 <div ng-repeat="skill in userSkills">
-	angular: {{skill.angular}}
-	node: {{skill.node}}
-	jquery: {{skill.jquery}}
-	html: {{skill.html}}
-	css: {{skill.css}}
+	<div class="progress">
+		<div class="progress-bar progress-bar-danger" style="width: {{skill.angular}}%">Angular.js</div> 
+	</div>
+		<div class="progress">
+		<div class="progress-bar progress-bar-danger" style="width: {{skill.jquery}}%">jQuery</div> 
+	</div>
+		<div class="progress">
+		<div class="progress-bar progress-bar-danger" style="width: {{skill.html}}%">HTML</div> 
+	</div>
+		<div class="progress">
+		<div class="progress-bar progress-bar-danger" style="width: {{skill.css}}%">CSS</div> 
+	</div>
 </div>
 
-<h5>This is what I would like to learn</h5>
+</div>
+
+<div class="col-md-6">
+
+	<h3 class="text-danger">Reach out and PairUp! </h3>
+
+
+<div ng-repeat="info in allUsers" class="text-muted">
+  {{info.displayName}} knows
+    
+      angular: {{info.skills.angular}}
+      node: {{info.skills.node}}
+      jquery: {{info.skills.jquery}}
+      html: {{info.skills.html}}
+      css: {{info.skills.css}}
+  and wants to know:
+    {{info.futureskills}}
+
+  <button ng-click="initChat(info.displayName)">Send Message</button>
+
+</div>
+
+<h5 class="text-danger">You want to learn</h5>
 <div ng-repeat="skill in futureSkills">
-	{{skill}}
-</div>
-</div>
-
-<div class="col-md-4">
-	<h3>Reach out to some people in Your Network</h3>
-
-<div ng-repeat="info in allUsers">
-	{{info.displayName}}, knows
-		
-			angular: {{info.skills.angular}}
-			node: {{info.skills.node}}
-			jquery: {{info.skills.jquery}}
-			html: {{info.skills.html}}
-			css: {{info.skills.css}}
-	and wants to know; 
-		{{info.futureskills}}
-
-	<button ng-click="initChat(info.displayName)">Send Message</button>
-
+  <h4 class="text-info"> {{skill}} </h4> 
 </div>
 
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Expert</h3>
+  </div>
+  <div class="panel-body">
+    Angular.js
+    <!-- {{skill in skills}} -->
+     <!-- | value > 66}} -->
+  </div>
 </div>
 
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Experienced</h3>
+  </div>
+  <div class="panel-body">
+    C
+    <!-- {{skill in skills}} -->
+    <!-- | 33 <= value <= 66}} -->
+  </div>
 </div>
+
 
 
 

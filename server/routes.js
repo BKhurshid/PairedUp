@@ -1,4 +1,3 @@
-// var app = require('./server');
 var passport = require('passport');
 
 var User = require('./userProfile/UserModel').user;
@@ -25,16 +24,12 @@ module.exports = function(app) {
   app.get('/auth/github',
     passport.authenticate('github'),
     function(req, res){
-      // The request will be redirected to GitHub for authentication, so this
-      // function will not be called.
     });
 
   app.get('/auth/github/callback', 
     passport.authenticate('github', { failureRedirect: '/login' }),
-    //This is the request handler that will be called when they click the log in to get hub. 
     userAuthUtil.directToProfile);
 
-  //The next four lines do not appear to do anything. I will double check, then delete if proven true.
   app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
@@ -54,37 +49,27 @@ module.exports = function(app) {
 
 
   app.post('/founduser', function(req, res){
-    // console.log('this is teh found user', req.body)
     User.findOne({displayName: req.body.user}, function(err, user){
       if(err){return console.log('no founduser', err)}
-      // console.log(user)
       res.json(user)
     })
   });
 
   app.post('/chats', function(req, res){
-    console.log('this is from chats', req.body)
     roomname = data.fromUser+data.toUser.displayName
-    console.log('initial roomname', roomname)
     Messages.find({room: data.toUser.displayName+data.fromUser.displayName}, function(err, msg){
       if(err){return err}
       if(msg[0] === undefined){
         roomname = data.fromUser.displayName+data.toUser.displayName
-      console.log('roomname',roomname)
-      console.log('mesgroom', msg)
       } else if(msg[0].room){
         roomname = data.toUser.displayName+data.fromUser.displayName
-        console.log('room on the if', roomname)
       }
-      console.log('these are the messages', msg)
       res.json(msg)
     })
   })
 
   app.post('/skills', function(req, res, next) {
-    // console.log('this is from skills', req.body)
     User.findOne({github: req.body.github}, function(err, user) {
-    // console.log('this is from skills', user)
       if(err){return next(err)}
         for(var key in req.body){
           if (req.body[key] !== req.body.github)
@@ -92,13 +77,11 @@ module.exports = function(app) {
         }
       user.save(function(err, user){
         if (err){return next(err)}
-      // console.log('this after saving first skills', user)   
       });
     });
   });
 
   app.post('/futureskills', function(req, res, next){
-    // console.log('this is from futureskills', req.body)
     User.findOne({github: req.body.github}, function(err, user) {
       if(err){
         return next(err);
@@ -111,7 +94,6 @@ module.exports = function(app) {
         if (err){
           return next(err);
         }
-      // console.log('this after saving skills', user)   
     
     });
   };
@@ -119,10 +101,8 @@ module.exports = function(app) {
   });
 
   app.get('/oneuserskill', function(req, res, next){
-    // console.log('this is the oneuserskill', req.body)
     User.find(function(err, user){
       if(err){next(err);}
-      // console.log('this is the user within', user)
       res.json(user);
     });
   });
@@ -142,11 +122,9 @@ module.exports = function(app) {
 
   app.post('/retrievingDocumentsForUser', documentUtils.retrievingDocumentsForUser);
 
-  //delete works but now I need to update every single document's id to --1. 
   app.post('/deleteDocumentsForUser', documentUtils.deleteDocumentsForUser);
 
   app.post('/api/upload', function(req,res) {
-    console.log("success"); 
     res.json({});
   });
   

@@ -31,17 +31,9 @@ var userSchema = new Schema({
  },
 });
 
-// var messageSchema = new Schema({
-//     created: String,
-//     text: String,
-//     displayName: String,
-//     room: String,
-// });
-// var Message = mongoose.model('Message', messageSchema);
 var User = mongoose.model("User", userSchema);
 
 module.exports = {
   user: User
-  // messages: Message,
 
 };

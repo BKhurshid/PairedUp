@@ -1,22 +1,22 @@
 angular.module('myApp')
 .factory('Account', function($http, $window) {
 
-    return {
-      getProfile: function() {
-          return $http.get('/account')
-        .success(function(req, res){
-         
-          var username = req.profile.displayName;
+  return {
+    getProfile: function() {
+      return $http.get('/account')
+      .success(function(req, res){
+       
+        var username = req.profile.displayName;
 
-          return username;
-        });
+        return username;
+      });
       
-      },
+    },
 
-      setChekIfActivelyLoggedIn: function(val) {
-            $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
-            return this;
-          },
+    setChekIfActivelyLoggedIn: function(val) {
+      $window.localStorage && $window.localStorage.setItem('notLoggedIn', val);
+      return this;
+    },
           //sets the value, of whether the user is logged our, into the localStorage. 
           setCheckIfLoggedOut: function(val) {
             $window.localStorage && $window.localStorage.setItem('Loggedout', val);
@@ -44,14 +44,16 @@ angular.module('myApp')
           getChekIfActivelyLoggedIn: function() {
             return $window.localStorage && $window.localStorage.getItem('notLoggedIn');
           },
+
+          updateProfile: function(profiledata) {
+            return $http.put('/api/me', profiledata);
+          },
+
           setTitle: function(val) {
             return $window.localStorage && $window.localStorage.setItem('liveCodeShare', val);
           },
           getTitle: function() {
             return $window.localStorage && $window.localStorage.getItem('liveCodeShare');
-          },
-      updateProfile: function(profileData) {
-        return $http.put('/api/me', profileData);
-      }
-    };
-});
+          }
+        };
+      });

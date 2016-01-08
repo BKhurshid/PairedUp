@@ -1,17 +1,38 @@
-<div class="row">
-		<h1>Future Skills</h1>
-		<h3>What skills would you like to learn in the future?</h3>
+<div class="row" id="cool">
+
+	<h3>What skills would you like to learn in the future?</h3>
+	
 	<div class="col-md-6">
 		
-			<label><input type="checkbox"  ng-model="python">  Python</label>
-			<label><input type="checkbox" ng-model="java">Java</label>
-			<label><input type="checkbox" ng-model="swift">Swift</label>
-			<label><input type="checkbox" ng-model="android">Android</label>
-			<label><input type="checkbox" ng-model="ruby">Ruby</label>
+		<label><input type="checkbox" ng-model="python">Python</label>
+		<br>
+		<label><input type="checkbox" ng-model="java">Java</label>
+		<br>
+		<label><input type="checkbox" ng-model="swift">Swift</label>
+		<br>
+		<label><input type="checkbox" ng-model="go">Go</label>
+		<br>
+		<label><input type="checkbox" ng-model="ruby">Ruby</label>
+		<br>
 
 	</div>
+
+	<div class="col-md-6">
+
+		<label><input type="checkbox" ng-model="angular">Angular</label>
+		<br>
+		<label><input type="checkbox" ng-model="node">Node</label>
+		<br>
+		<label><input type="checkbox" ng-model="jQuery">Swift</label>
+		<br>
+		<label><input type="checkbox" ng-model="html">HTML</label>
+		<br>
+		<label><input type="checkbox" ng-model="css">CSS</label>
+		<br>
+
+	</div>
+
 	<div class="col-md-2">
-		<button ng-click="add()">Add</button>
-		<a class="btn bg-success" ui-sref="profile.summary">FINISH</a>
+		<a href="https://paired-up.herokuapp.com/#/codeshare/contact" class="btn btn-primary btn-lg" style="text-align: center;" ng-click="add()" >Update Profile + Join The Network!</a>
 	</div>
 </div>

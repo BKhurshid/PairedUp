@@ -21,29 +21,37 @@
       <table class="table">
           <thead>
             <tr>
-              <th>ToUser:{{toUsername}}</th>
+              <th>{{toUsername}}</th>
              
             </tr>
           </thead>
         </table>
         <div class="msg-container">
           <div ng-repeat="key in allChats">
-            <p>{{key.displayName}} : {{key.text}}</p>
-            <p>{{key.created}}</p>
+            <table>
+              <tr>
+                <td class="name"><p>{{key.displayName}}</p></td>
+                <td class="created"><p>{{key.created}}</p></td>
+              </tr>
+              <tr>
+                <td class="text"><p>{{key.text}}</p></td>
+              </tr>
+            </table>
+           
+            
           </div>
         </div>
-        <form ng-submit="submit()">
+        <form ng-click="submit()">
         <div class="form-group">
-            <label class="col-sm-2 control-label">(from)Username</label>
             <div class="col-sm-10">
               <p class="form-control-static">{{username}}</p>
             </div>
           </div>
           <textarea class="form-control" rows="3" ng-model="text" name="text"></textarea>
          <p ng-model="date" ></p>
-          <input type="submit" id="submit" value="Submit" />
+          <input type="submit" id="submit" value="Submit"/>
         </form>
-        <a ui-sref="chat.room">Start a chatroom</a>
+      
         </div>
     </div>
 
