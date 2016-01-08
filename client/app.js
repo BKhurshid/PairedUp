@@ -4,6 +4,7 @@ angular.module('myApp', [
       'ui.bootstrap',
       'btford.socket-io',
       'ngAnimate'
+
   ])
 
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider){
@@ -14,7 +15,6 @@ angular.module('myApp', [
     url: '/login',
     templateUrl: 'auth/login/login.html',
     controller: 'NavbarController'
-
   })
 
   .state('logout', {
@@ -22,6 +22,7 @@ angular.module('myApp', [
     template: null,
     controller: 'LogoutController'
   })
+
   .state('home', {
     url:'/home',
     templateUrl: 'home/home.html',
@@ -30,22 +31,19 @@ angular.module('myApp', [
 
   .state('profile', {
     url: '/profile',
-    templateUrl: 'userprofile/userprofile.html',
-    controller: 'ProfileController'
-
+    views: {
+      "": {
+        templateUrl: 'userprofile/userprofile.html', 
+        controller: 'ProfileController'
+          },
+      "currentskills@profile": {
+        templateUrl: 'userprofile/currentskills.html',
+        controller: 'CurrentSkillsController'
+          },
+    }
   })
 
-  .state('profile.currentskills', {
-    url: '/currentskills',
-    templateUrl: 'userprofile/currentskills.html',
-    controller: 'CurrentSkillsController'
-  })
 
-  .state('profile.futureskills', {
-    url: '/futureskills',
-    templateUrl: 'userprofile/futureskills.html',
-    controller: 'FutureSkillsController'
-  })
 
   .state('profile.summary', {
     url: '/summary',
@@ -93,7 +91,6 @@ angular.module('myApp', [
     templateUrl: 'chat/contacts.html',
     controller: 'ContactController'
   });
-
 
   $urlRouterProvider.otherwise('/login');
 

@@ -13,4 +13,8 @@ angular.module('myApp')
         html:$scope.html, css:$scope.css, jquery:$scope.jquery})
     }
 
+    $scope.addfuture = function(){
+      profiledata.futureSkills({github: $scope.profile, python: $scope.python, java: $scope.java, swift: $scope.swift, go: $scope.go, ruby: $scope.ruby, angular: $scope.angular, jQuery: $scope.jQuery, html: $scope.html, css: $scope.css})
+    }
+
   }]);

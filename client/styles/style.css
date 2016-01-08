@@ -32,12 +32,15 @@ td.list {
 .starter-template {
   /*padding: 40px 15px;*/
   text-align: center;
-  height: 700px;
-  background-image: url(night-lights.jpg);
+  height: 900px;
+  width: 1500px;
+  background-image: url(../assets/img/horizon.large.jpg);
   background-repeat: no-repeat;
   background-size: cover; 
-  padding: 200px 0px 300px 0px;
+/*  background-color: #000;
+*/  padding: 200px 0px 0px 0px;
   color: #FFF;
+  background-position: center;
 }
 
 .card li {
@@ -121,6 +124,15 @@ span.glyphicon{
 }
 
 /* Styles for profile.html */
+
+.container {
+  width: 1500px;
+}
+
+.currentskills {
+  padding-left: 100px;
+}
+
 #padded {
   padding-top: 30px;
   /*padding: 20px;*/
@@ -128,10 +140,11 @@ span.glyphicon{
 }
 
 #cool {
-  /*padding: 60px 0px 0px 0px;*/
+  padding: 120px 0px 0px 120px;
   left padding: 10px;
   background-color: #333;
   color: #fff;
+  height: 840px;
 }
 
 #sweet {

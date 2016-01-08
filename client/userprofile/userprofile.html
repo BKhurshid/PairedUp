@@ -1,7 +1,13 @@
+<div class="container">
+
 <div class="row" id="cool">
+  
   <div class="col-md-4" id="sweet">
     <div class="panel panel-default">
-      <div class="panel-body">
+
+        <h2 style="color:gray; text-align: center;"> Welcome to PairedUp! </h2>
+
+      <div class="panel-body" >
         <label ng-hide="user.picture" class="control-label">Profile Picture</label>
         <center>
           <img class="img-circle img-responsive" width="250" height="250" ng-src="{{user.picture || 'https://placehold.it/100x100'}}">
@@ -9,23 +15,22 @@
 
         <h2 style="color:gray; text-align: center;"> {{user.displayName}} </h2>
 
-        <h2 style="color:gray; text-align: center;"> Welcome to PairedUp! </h2>
-
       </div>
-  </div>
-</div>
 
-<div class="col-md-8">
-  <div>
-    <h2>Rate your skills to complete your user profile</h2>
-    <a style="color:blue; text-align: center; font-size: 50px;" ui-sref="profile.currentskills">Let's go!<a>
-  </div>
-</div>
-
-<div class="col-md-8">
-  <div ui-view></div>
-</div>
-  
+    </div>
 
   </div>
+
+  <div class="col-md-8 currentskills">
+    <div>
+      <h2>Rate your skills on a scale from 0 to 100</h2>
+      <h2>Your beginning values are 50/100</h2>
+      <div ui-view="currentskills"></div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+    </div>
+</div>
+
 </div>
