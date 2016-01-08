@@ -9,12 +9,7 @@ angular.module('myApp')
       obj.getAllDocs = function () {
 
         return $http.get('/getuserdocs')
-        // success(function(data){
-        //   console.log('data from getUserdocs', data)
-        //   for (var i = 0; i < data.length; i++) {
-        //     obj.allDocs.push(data[i])  
-        //   }
-        // })
+
       }
 
       return obj;

@@ -1,10 +1,7 @@
 angular.module('myApp')
 	.controller('FutureSkillsController', ['$scope','profiledata', 'Account', function($scope, profiledata, Account){
 		$scope.profile;
-	// var account = Account.getUserDisplayName()
-	// profiledata.findUser({user:account}).then(function(results){
-	//   $scope.profile = results.data.github
-	//   })
+
 
 	Account.getProfile().success(function(data){
 		  $scope.profile = data.profile.github
