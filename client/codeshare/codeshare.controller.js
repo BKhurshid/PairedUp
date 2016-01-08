@@ -23,7 +23,6 @@ angular.module('myApp')
   $scope.profile;
   $scope.fromUser
   $scope.allUsers = []; 
-
   $scope.filesList = [];
   $scope.id = 0;
   $scope.removeid = 0;
@@ -48,7 +47,6 @@ angular.module('myApp')
 
     }
   });
-
 
   $scope.initChat = function (user){
     socket.emit('writeToUser', {toUser: user, fromUser:$scope.fromUser})
@@ -108,24 +106,6 @@ angular.module('myApp')
     'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
  
   
-//add a document
-
- //file types to add to the document name. 
-  $scope.fileTypes = {'Scheme': '.sch', 'XML' : '.xml', 'Javascript': '.js', 'HTML': '.html' , 'Ruby': '.rb' , 'CSS': '.css' , 'Curly': '.curly' , 'CSharp': '.csharp' , 'Python': '.py' , 'MySQL': '.sql' };
-//retrieving all the files if the user is logged in. 
-  if (Account.getLoggedOutData() === 'false') {
-      $http.post('/retrievingDocumentsForUser', {displayName: Account.getLogInData(), code: $scope.aceModel})
-      .then(function(result) {
-        for (var i = 0; i < result.data.length; i++) {
-          $scope.id++;
-          $scope.filesList.push(result.data[i]);
-        }
-      }, function(err) {
-        console.log("there was an error");
-      });
-    }
-
-
 
  //file types to add to the document name. 
   $scope.fileTypes = {'Scheme': '.sch', 'XML' : '.xml', 'Javascript': '.js', 'HTML': '.html' , 'Ruby': '.rb' , 'CSS': '.css' , 'Curly': '.curly' , 'CSharp': '.csharp' , 'Python': '.py' , 'MySQL': '.sql' };
@@ -150,11 +130,10 @@ angular.module('myApp')
     $scope.filesList.push({id: total, title: $scope.title, code: $scope.aceModel, mode: $scope.mode});
     $scope.filesList[total - 1].title += $scope.fileTypes[$scope.mode];
     $http.post('/savingDocumentsToDatabase', {id: total, title: ($scope.title + $scope.fileTypes[$scope.mode]), mode: $scope.mode, displayName: Account.getUserDisplayName(), code: $scope.aceModel});  
-
     $scope.title = '';
     $scope.aceModel = '';
   };
-//update a document
+
   $scope.update = function(id){
     var index = selectId($scope.idOfCurrentDoc);
     $scope.filesList[index].title = $scope.title;
@@ -168,7 +147,6 @@ angular.module('myApp')
   $scope.shareWith = function(username) {
     socket.emit('/create', {title:$scope.title});
   };
-
 
   $scope.edit = function(id){
     var index = selectId(id);
@@ -190,7 +168,6 @@ angular.module('myApp')
       $scope.id = 0; 
       $scope.filesList = [];
       $http.post('/retrievingDocumentsForUser', {displayName: Account.getUserDisplayName(), code: $scope.aceModel})
-
       .then(function(result) {
         for (var i = 0; i < result.data.length; i++) {
           $scope.id++;

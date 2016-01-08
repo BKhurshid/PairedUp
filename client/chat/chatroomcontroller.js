@@ -4,12 +4,7 @@ angular.module('myApp')
 	$scope.roomname =[]
 
 		 
-		// $scope.username = Account.getProfile()
-		// $scope.enter = function(name){
-		// 	$scope.roomname = name
-		// 	socket.emit('/createroom', {roomname: $scope.roomname, creator: $scope.username})
-		//     $scope.newName = " "
-		// };
+
 
 	var account = Account.getUserDisplayName()
 
