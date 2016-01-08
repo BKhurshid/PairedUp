@@ -18,13 +18,13 @@ function initiation(server) {
     //socket listener for medium LiveEdit. 
       var roomname;
       socket.on('writeToUser', function(data){
-        roomname = data.fromUser.displayName+data.toUser.displayName
+        roomname = data.fromUser.displayName+data.toUser.displayName;
         Messages.find({room: data.toUser.displayName+data.fromUser.displayName}, function(err, msg){
           if(err){return err}
           if(msg[0] === undefined){
-            roomname = data.fromUser.displayName+data.toUser.displayName
+            roomname = data.fromUser.displayName+data.toUser.displayName;
           } else if(msg[0].room){
-            roomname = data.toUser.displayName+data.fromUser.displayName
+            roomname = data.toUser.displayName+data.fromUser.displayName;
           }
 
           var foundMessages;
@@ -38,24 +38,24 @@ function initiation(server) {
             io.emit('publish message', foundMessages);
           });
 
-        socket.join(roomname)
-        socket.broadcast.to(roomname).emit('joincomplete', console.log('hey your in this chat with ' +data.toUser.displayName))
-          socket.emit('composeToUser', {roomname: roomname, fromUser: data.fromUser, toUser:data.toUser})
-        })
-      })
+        socket.join(roomname);
+        socket.broadcast.to(roomname).emit('joincomplete', console.log('hey your in this chat with ' +data.toUser.displayName));
+          socket.emit('composeToUser', {roomname: roomname, fromUser: data.fromUser, toUser:data.toUser});
+        });
+      });
       
       socket.on('userjoin', function(data){
-        socket.join(data.joinedroom)
-        socket.broadcast.to(data.joinedroom).emit('joincomplete', console.log('hey your in this chat with ' +data.chatwith))
-        socket.emit('replychat', data) 
-      })
+        socket.join(data.joinedroom);
+        socket.broadcast.to(data.joinedroom).emit('joincomplete', console.log('hey your in this chat with ' +data.chatwith));
+        socket.emit('replychat', data) ;
+      });
 
     socket.on('new message', function(message) {
       var messages = new Messages(message);
       messages.created = message.date;
       messages.text = message.text;
       messages.displayName = message.fromUser;
-      messages.room = message.joinedroom
+      messages.room = message.joinedroom;
       messages.save(function(err, results){
         if(err){
           console.log('you have an error', err);

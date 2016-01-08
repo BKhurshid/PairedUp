@@ -51,8 +51,8 @@ module.exports = function(app) {
   app.post('/founduser', function(req, res){
     User.findOne({displayName: req.body.user}, function(err, user){
       if(err){return console.log('no founduser', err)}
-      res.json(user)
-    })
+      res.json(user);
+    });
   });
 
   app.post('/chats', function(req, res){
@@ -64,9 +64,9 @@ module.exports = function(app) {
       } else if(msg[0].room){
         roomname = data.toUser.displayName+data.fromUser.displayName
       }
-      res.json(msg)
-    })
-  })
+      res.json(msg);
+    });
+  });
 
   app.post('/skills', function(req, res, next) {
     User.findOne({github: req.body.github}, function(err, user) {

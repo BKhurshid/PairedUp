@@ -34,9 +34,8 @@ angular.module('myApp')
     //A outer chekc to see if the user is logged in or not
     }else if (Account.getCheckingIfLogInData() === '1' ){
       //if they are not logged in, then redirect them to the login page.
-      if (Account.getCheckIfLoggedOut() == 'true') {
+      if (Account.getCheckIfLoggedOut() == 'true') { 
         $state.go('login');
-
         //else if they are already logged in. 
       } else {
         //Use displayName to search for the user in the database. 

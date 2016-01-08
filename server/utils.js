@@ -20,7 +20,7 @@ module.exports = {
       } else {
         //content is being asynchronously set to the data in the file
         content = data;
-        //To get around the synchronous behavior we wrap the next step into the function sendFileDataToClient. Which will just emit the content, but this way we are sure that content is done receiving the data from the file.
+
         sendFileDataToClient(content);
       }
     });

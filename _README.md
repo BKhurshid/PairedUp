@@ -47,3 +47,20 @@ View the project roadmap [here](https://waffle.io/MagCacti/PairedUp)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+
+
+Notes: File upload prone to error. Works but causes error after about 30 seconds.
+
+Instructions On How To User Site: 
+1) npm install and bower install. Also, install mongod if you don't already have it.
+2)run mongodb and the server.js file
+3) sign in with "login with passport github"
+4) Enjoy your github picture on the profile page. 
+5) Go to the codeShare Editor. 
+6)create a document with the add button. Make sure to give it a title.
+7)open another 
+8)go to the codeshare editor. 
+9) add a document with the same name as the other document you made in the other tab. 
+10) click edit document and sharewith on both tabs.
+11)you should have full functionality of real time collaboration. 

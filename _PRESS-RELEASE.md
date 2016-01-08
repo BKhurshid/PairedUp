@@ -17,7 +17,12 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 # PairedUp #
+<<<<<<< HEAD
 ## PairedUp is for people learning how to code. ##
+=======
+## Market ##
+PairedUp is for people learning how to code. 
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
 ## Summary ##
 Learning how to code? Need a Partner? PairedUp is a way to connect with awesome TechMentors. If your looking to learn a particular programming language then PairedUp will match you with fellow coders who can pair program with you. 
 ## Problem ##
@@ -31,4 +36,8 @@ Have the internet? Have a github Profile? Log on to PairedUp.com, fill out your 
 ## Customer Quote ##
 "Before PairedUp I spent hours trying to debug, now with PairedUp I just ask my TechMentor."
 ## Closing and Call to Action ##
+<<<<<<< HEAD
 If you need help or want to give back to the coder community, visit PairedUp.com
+=======
+If you need help or want to give back to the coder community, visit PairedUp.com
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a

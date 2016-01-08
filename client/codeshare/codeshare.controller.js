@@ -11,6 +11,7 @@ angular.module('myApp')
   };
 }])
 
+<<<<<<< HEAD
 .controller('CodeShareController', ['$scope','$http', '$state','$window','socket','Account', '$log', 'profiledata', function($scope, $http, $state, $window,  socket, Account, $log, profiledata){ 
   $scope.isCollapsed = false;
   $scope.toUsername;
@@ -23,10 +24,15 @@ angular.module('myApp')
   $scope.profile;
   $scope.fromUser
   $scope.allUsers = []; 
+=======
+.controller('CodeShareController', ['$scope','$http', '$state','socket','Account', function($scope, $http, $state, socket, Account){
+  //where the documents that are added are being saved. 
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
   $scope.filesList = [];
   $scope.id = 0;
   $scope.removeid = 0;
   $scope.modes = ['Scheme', 'XML', 'Javascript', 'HTML', 'Ruby', 'CSS', 'Curly', 'CSharp', 'Python', 'MySQL'];
+<<<<<<< HEAD
   $scope.mode = $scope.modes[2];
   var coderoom = $scope.joinedRoom
   
@@ -47,6 +53,17 @@ angular.module('myApp')
 
     }
   });
+=======
+  $scope.mode = $scope.modes[0];
+  if (Account.getLoggedOutData()){
+
+  }
+  //I believe the line below to be unnecessary now but not sure. 
+  // $http.get('/checkIfLoggedIn').then(function(response){
+  //   console.log("response from checkIfLoggedIn", response);
+  // });
+  // var comm = new Icecomm('');
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
 
   $scope.initChat = function (user){
     socket.emit('writeToUser', {toUser: user, fromUser:$scope.fromUser})
@@ -106,6 +123,24 @@ angular.module('myApp')
     'function foo(msg) {\n\tvar r = Math.random();\n\treturn "" + r + " : " + msg;\n}';
  
   
+//add a document
+
+ //file types to add to the document name. 
+  $scope.fileTypes = {'Scheme': '.sch', 'XML' : '.xml', 'Javascript': '.js', 'HTML': '.html' , 'Ruby': '.rb' , 'CSS': '.css' , 'Curly': '.curly' , 'CSharp': '.csharp' , 'Python': '.py' , 'MySQL': '.sql' };
+//retrieving all the files if the user is logged in. 
+  if (Account.getLoggedOutData() === 'false') {
+      $http.post('/retrievingDocumentsForUser', {displayName: Account.getLogInData(), code: $scope.aceModel})
+      .then(function(result) {
+        for (var i = 0; i < result.data.length; i++) {
+          $scope.id++;
+          $scope.filesList.push(result.data[i]);
+        }
+      }, function(err) {
+        console.log("there was an error");
+      });
+    }
+
+
 
  //file types to add to the document name. 
   $scope.fileTypes = {'Scheme': '.sch', 'XML' : '.xml', 'Javascript': '.js', 'HTML': '.html' , 'Ruby': '.rb' , 'CSS': '.css' , 'Curly': '.curly' , 'CSharp': '.csharp' , 'Python': '.py' , 'MySQL': '.sql' };
@@ -129,11 +164,16 @@ angular.module('myApp')
     var total = $scope.id + $scope.removeid;
     $scope.filesList.push({id: total, title: $scope.title, code: $scope.aceModel, mode: $scope.mode});
     $scope.filesList[total - 1].title += $scope.fileTypes[$scope.mode];
+<<<<<<< HEAD
     $http.post('/savingDocumentsToDatabase', {id: total, title: ($scope.title + $scope.fileTypes[$scope.mode]), mode: $scope.mode, displayName: Account.getUserDisplayName(), code: $scope.aceModel});  
+=======
+    $http.post('/savingDocumentsToDatabase', {id: total, title: ($scope.title + $scope.fileTypes[$scope.mode]), mode: $scope.mode, displayName: Account.getLogInData(), code: $scope.aceModel});  
+    
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
     $scope.title = '';
     $scope.aceModel = '';
   };
-
+//update a document
   $scope.update = function(id){
     var index = selectId($scope.idOfCurrentDoc);
     $scope.filesList[index].title = $scope.title;
@@ -145,8 +185,14 @@ angular.module('myApp')
   };
 
   $scope.shareWith = function(username) {
+<<<<<<< HEAD
     socket.emit('/create', {title:$scope.title});
   };
+=======
+   //emiting a message to server called /create which will have the users join a room
+    socket.emit('/create', {title:$scope.title});
+    };
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
 
   $scope.edit = function(id){
     var index = selectId(id);
@@ -160,6 +206,7 @@ angular.module('myApp')
 
   $scope.delete = function(id){
     var index = selectId(id);
+<<<<<<< HEAD
     var index = selectId($scope.idOfCurrentDoc);
     var item = $scope.filesList[index];
     var store = $scope.filesList[$scope.removeid];
@@ -168,6 +215,15 @@ angular.module('myApp')
       $scope.id = 0; 
       $scope.filesList = [];
       $http.post('/retrievingDocumentsForUser', {displayName: Account.getUserDisplayName(), code: $scope.aceModel})
+=======
+    var item = $scope.filesList[index];
+    var store = $scope.filesList[$scope.removeid];
+    $http.post('/deleteDocumentsForUser', {displayName: Account.getLogInData(), title: item.title, id:item.id}).then(function(result) {
+    }).then(function() {
+      $scope.id = 0; 
+      $scope.filesList = [];
+      $http.post('/retrievingDocumentsForUser', {displayName: Account.getLogInData(), code: $scope.aceModel})
+>>>>>>> 31a1b6d0cb232d8d6b59a205189e9d80cd19f56a
       .then(function(result) {
         for (var i = 0; i < result.data.length; i++) {
           $scope.id++;
