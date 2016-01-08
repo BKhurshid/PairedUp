@@ -19,7 +19,7 @@ angular.module('myApp')
         return promise;
     };
 
-    //the first time a user comes to the profile page without signing in. 
+    //If a user has come to the profile page without signing in. 
     if (Account.getCheckingIfLogInData() === null) {
       Account.setCheckingIfLogInData(1);
       Account.setCheckIfLoggedOut(true);

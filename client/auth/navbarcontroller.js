@@ -22,7 +22,7 @@ angular.module('myApp')
 
 	  $scope.login = function (){
 	  	console.log('This is working in NavbarController')
-	  }
+	  };
 
 	  $scope.login();
 
