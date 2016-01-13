@@ -1,32 +1,35 @@
-*
 # PairedUp
-
-A WorldWide Pair Programming WebApp. 
-
-## Team
-
-  - __Product Owner__: Aheri Stanford-Asiyo
-  - __Scrum Master__: Kristina Mcelveen
-  - __Development Team Members__: Joseph Sun, Carine Todmia
+> A pair-programming app that helps you connect and code with awesome tech mentors through Video Chat, a Live Code Editor, and Direct Messaging.
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Team](#team)
+1. [Technology Stack](#technology-stack)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
+    1. [Usage](#usage)
+1. [Roadmap](#roadmap)
 1. [Contributing](#contributing)
 
-## Usage
 
-> To launch our production app, just log on at PairedUp.com
+### Team
+[![Aheri Stanford-Asiyo](https://avatars0.githubusercontent.com/u/10456737?v=3&s=70)](https://github.com/DhiMalo) <br>Aheri Stanford-Asiyo| [![Carine Todmia](https://avatars0.githubusercontent.com/u/9440923?v=3&s=70)](https://github.com/ctodmia) <br>Carine Todmia| [![Joseph Sun](https://avatars3.githubusercontent.com/u/11227083?v=3&s=70)](https://github.com/JosephSun)<br>Joseph Sun |<br> Kristina McElveen
+--- | --- | --- | --- | --- | --- | ---
+[LinkedIn](https://www.linkedin.com/in/aheri)<br>[Twitter](https://twitter.com/aherisan)|[LinkedIn](https://www.linkedin.com/in/carinetodmia) | [LinkedIn](https://www.linkedin.com/in/josephsun4)|[LinkedIn](https://www.linkedin.com/in/kristina-mcelveen-98b219108)
 
-## Reimplementation Requirements
+<br>
+### Technology Stack
+<img src="http://i.imgur.com/dktBkgD.png"> |  <img src="http://i.imgur.com/P5hKmWx.png">|<img src="http://i.imgur.com/hi6gCzf.png">|<img src="http://i.imgur.com/jK9PTgu.png">
+--- | --- | --- | --- |
+Angular.js | MongoDB| Node.js|Express.js
 
-- Node 0.10.x
 
+## Requirements
+
+- Node    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;version 4.2+
+- MongoDB&ensp;&ensp;&ensp;version 3.0.7+
+- Bower   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;version 1.4+
 
 ## Development
 
@@ -40,26 +43,22 @@ npm install
 bower install
 ```
 
+### Usage
+
+Once you have cloned and navigated to the repo
+- From within the server directory, run node and mongoDB:
+
+```sh
+node server
+mongod
+```
+
+-  Run localhost:8080 in your favorite browser
+ 
 ### Roadmap
 
-View the project roadmap [here](https://waffle.io/MagCacti/PairedUp)
+View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
-
-## Contributing
+### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
-
-
-How to use: 
-  1) Clone repo onto local computer;
-  2) Install using npm and bower;
-  3) Start mongoDB; 
-  4) Start serverJS (node server.js), it is in the root file;
-  5) Open localhost:8080 in your browser; 
-  6) Click the login button; 
-  7) Enjoy your profile page; 
-  8) Go to the codeShare page; 
-  9) Create a document by adding it. Call it whatever you want and write it in any language you would like. 
-  10) Click edit that document. Then click the shareWith button. 
-  11) Anyone who has a document with the same title name and who has clicked edit and shareWith shall now be able to collaborate with you on that document. 
-
